@@ -1,17 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-import ListGroup from "react-bootstrap/ListGroup";
-import ProgressBar from "react-bootstrap/ProgressBar";
-
 import "./App.css";
 
 const App = () => {
   const [data, setData] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/users/")
+      .get(`${API_URL}/users`)
       .then((response) => {
         console.log(response.data);
         setData(response.data);
