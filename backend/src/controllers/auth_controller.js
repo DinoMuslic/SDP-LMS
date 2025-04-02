@@ -31,7 +31,7 @@ const login = async (req, res) => {
   
     try {
       const user = await User.getUserByEmail(email);
-      if(!user[0]) {  // Ovo popraviti - npr ako je user empty nema pristuma email propertiju i nastaje error
+      if(!user[0]) {
         return res.status(401).json({error: "Invalid credentials"});
       }
 
