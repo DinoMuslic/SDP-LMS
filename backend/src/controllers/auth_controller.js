@@ -13,7 +13,7 @@ const register = async(req, res) => {
     try {
         const user = await User.getUserByEmail(email); // ovo uvijek vraca array cak iako je uvijek 1 element u sustini
 
-        if(user[0].email) {
+        if(user[0]) {
             return res.status(400).json({error: "User already exists"});
         }
 
