@@ -10,7 +10,7 @@ const registerUser = async(req, res) => {
     try {
         const existingUser = await User.getUserByEmail(email);
 
-        if(existingUser.email) {
+        if(existingUser) {
             return res.status(400).json({error: "User already exists"});
         }
 
@@ -21,5 +21,20 @@ const registerUser = async(req, res) => {
         res.status(500).json({error: error});
     }
 };
+
+
+// const loginUser = async (req, res) => {
+//     const { email, password } = req.body;
+  
+//     try {
+//       const user = await User.getUserByEmail(email);
+//       if(!user) {
+
+//       }
+      
+//     } catch(error) {
+//         res.status(500).json({error: "Server error"});
+//     }
+//   };
 
 module.exports = { registerUser };
