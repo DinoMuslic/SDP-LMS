@@ -17,7 +17,7 @@ const register = async(req, res) => {
             return res.status(400).json({error: "User already exists"});
         }
 
-        await User.createUser(first_name, last_name, email, password, "student");
+        await User.createUser(first_name, last_name, email, password);
         res.status(200).json({message: "User registered sucessfully"});
     } catch(error) {
         console.log("Error registering user");
