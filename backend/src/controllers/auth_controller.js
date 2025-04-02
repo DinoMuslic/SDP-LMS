@@ -1,4 +1,7 @@
 const User = require("../models/user_model");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+require('dotenv').config({path: "../../env"});
 
 const registerUser = async(req, res) => {
     const { first_name, last_name, email, password } = req.body;
@@ -10,7 +13,7 @@ const registerUser = async(req, res) => {
     try {
         const existingUser = await User.getUserByEmail(email);
 
-        if(existingUser) {
+        if(existingUser.email) {
             return res.status(400).json({error: "User already exists"});
         }
 
@@ -23,18 +26,27 @@ const registerUser = async(req, res) => {
 };
 
 
-// const loginUser = async (req, res) => {
-//     const { email, password } = req.body;
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
   
-//     try {
-//       const user = await User.getUserByEmail(email);
-//       if(!user) {
+    try {
+      const user = await User.getUserByEmail(email);
+      if(!user) {
+        return res.status(401).json({error: "Invalid credentials"});
+      }
 
-//       }
+      const isSame = await bcrypt.compare(password, user.password);
+      if(!isSame) {
+        return res.status(401).json({error: "Invalid credentials"});
+      }
+
+      const token = jwt.sign({ id: user.id, type: user.type }, process.env.JWT_SECRET, { expiresIn: "2h" });
+
+      res.json({ token, user: { id: user.id, first_name: user.first_name, last_name: user.last_name } });
       
-//     } catch(error) {
-//         res.status(500).json({error: "Server error"});
-//     }
-//   };
+    } catch(error) {
+        res.status(500).json({error: "Server error"});
+    }
+  };
 
-module.exports = { registerUser };
+module.exports = { registerUser, loginUser };
