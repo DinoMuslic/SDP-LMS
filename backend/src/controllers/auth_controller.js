@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 require('dotenv').config({path: "../../env"});
 
-const registerUser = async(req, res) => {
+const register = async(req, res) => {
     const { first_name, last_name, email, password } = req.body;
 
     if(!first_name || !last_name || !email || !password) {
@@ -11,9 +11,9 @@ const registerUser = async(req, res) => {
     }
 
     try {
-        const existingUser = await User.getUserByEmail(email);
+        const user = await User.getUserByEmail(email); // ovo uvijek vraca array cak iako je uvijek 1 element u sustini
 
-        if(existingUser.email) {
+        if(user[0].email) {
             return res.status(400).json({error: "User already exists"});
         }
 
@@ -26,27 +26,27 @@ const registerUser = async(req, res) => {
 };
 
 
-const loginUser = async (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
   
     try {
       const user = await User.getUserByEmail(email);
-      if(!user) {
+      if(!user[0].email)  {
         return res.status(401).json({error: "Invalid credentials"});
       }
 
-      const isSame = await bcrypt.compare(password, user.password);
+      const isSame = await bcrypt.compare(password, user[0].password);
       if(!isSame) {
         return res.status(401).json({error: "Invalid credentials"});
       }
 
-      const token = jwt.sign({ id: user.id, type: user.type }, process.env.JWT_SECRET, { expiresIn: "2h" });
+      const token = jwt.sign({ id: user[0].id, type: user[0].type }, process.env.JWT_SECRET, { expiresIn: "2h" });
 
-      res.json({ token, user: { id: user.id, first_name: user.first_name, last_name: user.last_name } });
+      res.json({ user: { id: user[0].id, first_name: user[0].first_name, last_name: user[0].last_name, token: token }});
       
     } catch(error) {
-        res.status(500).json({error: "Server error"});
+        res.status(500).json({error: error});
     }
   };
 
-module.exports = { registerUser, loginUser };
+module.exports = { register, login };
