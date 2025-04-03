@@ -1,5 +1,5 @@
 const db = require("./db");
-const bycript = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async () => {
   try {
@@ -33,7 +33,7 @@ const getUserByEmail = async(email) => {
 
 const createUser = async(first_name, last_name, email, password) => {
   try {
-    const hashedPassword = await bycript.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     await db.query("INSERT INTO users (first_name, last_name, email, password, type) VALUES(?, ?, ?, ?, ?)", [first_name, last_name, email, hashedPassword, "student"]);
     return {message: "User created sucessfully"};
   } catch(error) {
