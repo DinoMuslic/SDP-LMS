@@ -1,19 +1,26 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router/Router"
-import Toast from "@components/Toast/Toast";
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
 
 import Header from "@components/Header/Header";
 
+
 const App = () => {
-  let url = window.location.href;
+  const [url, setUrl] = useState(window.location.href);
+
+  useEffect(() => {
+    console.log(url);
+    setUrl(url);
+  }, [url]);
 
   return (
     <BrowserRouter>
       {
-          url.includes("/login") ? ("") : (<Header />) 
+          url.includes("/login") || url.includes("/register") ? ("") : (<Header />) 
       }
       <Router />
     </BrowserRouter>

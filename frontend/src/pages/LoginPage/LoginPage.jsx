@@ -28,13 +28,10 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        email: email,
+        password: password,
+      });
       navigate("/");
     } catch (error) {
       setToastTitle("Error");
@@ -79,7 +76,9 @@ const LoginPage = () => {
         </Container>
       </Form>
 
-      {showToast && <MyToast type={toastType} message={toastMessage} title={toastTitle} />}
+      {showToast && (
+        <MyToast type={toastType} message={toastMessage} title={toastTitle} />
+      )}
     </div>
   );
 };
