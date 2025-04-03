@@ -1,4 +1,10 @@
-body {
-  background-color: #123456;
-  color: aliceblue;
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Quicksand:wght@300..700&display=swap');
+
+:root {
+    --green: #156e3d;
+}
+
+html, body {
+    font-family: 'Quicksand';
+    font-weight: 500;
 }
