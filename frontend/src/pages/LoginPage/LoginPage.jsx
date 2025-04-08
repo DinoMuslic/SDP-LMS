@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Button from "react-bootstrap/Button";
@@ -28,11 +28,17 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
         email: email,
         password: password,
       });
-      navigate("/");
+
+      const { token, role } = response.data.user;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+      role === "student" ? navigate("/") : role === "admin" ? navigate("/admin") : navigate("/librarian") ;
     } catch (error) {
       setToastTitle("Error");
       setToastType("danger");
