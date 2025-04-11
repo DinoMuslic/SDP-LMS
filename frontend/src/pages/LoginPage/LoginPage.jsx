@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Button from "react-bootstrap/Button";
@@ -28,17 +28,24 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       const { token, role } = response.data.user;
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
-      role === "student" ? navigate("/") : role === "admin" ? navigate("/admin") : navigate("/librarian") ;
+      role === "student"
+        ? navigate("/home")
+        : role === "admin"
+        ? navigate("/admin")
+        : navigate("/librarian");
     } catch (error) {
       setToastTitle("Error");
       setToastType("danger");
@@ -74,6 +81,10 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
           />
         </Form.Group>
+
+        <div className="w-100 mb-3 text-center">
+          <a href="/register">Don't have an Account?</a>
+        </div>
 
         <Container className="d-flex justify-content-center w-100">
           <Button variant="success" onClick={handleLogin}>

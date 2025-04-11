@@ -6,7 +6,6 @@ import "./Header.css";
 
 import libraryLogo from "@images/online-library.png";
 import userIcon from "@images/user.png";
-import { use } from "react";
 
 const Header = () => {
   const role = localStorage.getItem("role");
@@ -32,22 +31,33 @@ const Header = () => {
                 </>
               ) : role === "admin" ? (
                 <>
-                  <Nav.Link href="/dashboard">Students</Nav.Link>
-                  <Nav.Link href="/dashboard">Staff</Nav.Link>
-                  <Nav.Link href="/dashboard">Books</Nav.Link>
-                  <Nav.Link href="/dashboard">Authors</Nav.Link>
+                  <Nav.Link href="/home">Home</Nav.Link>
+                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 </>
               ) : role === "librarian" ? (
                 <>
-                  <Nav.Link href="/dashboard">Students</Nav.Link>
+                  <Nav.Link href="/home">Home</Nav.Link>
+                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 </>
-              ) : null}
+              ) : (
+                <>
+                  <Nav.Link href="/login">Login</Nav.Link>
+                  <Nav.Link href="/register">Register</Nav.Link>
+                </>
+              )}
             </Nav>
           </div>
         </Container>
-        <div>
+        <div className="d-flex align-items-center text-light">
+          {role && (
+            <div>
+              <a onClick={() => localStorage.clear()} href="/home">
+                Logout
+              </a>
+            </div>
+          )}
           <Navbar.Brand href="/profile">
-            <img className="logo" src={userIcon} alt="User" />
+            <img className="logo ms-3" src={userIcon} alt="User" />
           </Navbar.Brand>
         </div>
       </Navbar>

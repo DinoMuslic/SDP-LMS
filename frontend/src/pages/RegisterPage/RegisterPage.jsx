@@ -84,7 +84,7 @@ const RegisterPage = () => {
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 position-relative">
       <Form className="login-form p-3 w-25 rounded needs-validation">
-        <p className="h4 text-center">Login</p>
+        <p className="h4 text-center">Register</p>
 
         <Form.Group className="mb-3">
           <Form.Label>First Name</Form.Label>
@@ -165,6 +165,10 @@ const RegisterPage = () => {
             {formErrors.confirmPassword}
           </Form.Control.Feedback>
         </Form.Group>
+
+        <div className="w-100 mb-3 text-center">
+          <a href="/login">Already have an Account?</a>
+        </div>
 
         <Container className="d-flex justify-content-center w-100">
           <Button variant="success" onClick={handleRegister}>
