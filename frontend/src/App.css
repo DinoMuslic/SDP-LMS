@@ -37,6 +37,13 @@ html, body {
     font-size: var(--m);
 }
 
+.my-center-container {
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .my-btn {
     color: var(--green);
     background-color: var(--light);
