@@ -11,10 +11,17 @@ const Router = () => {
   return (
     <Routes>
       <Route index element={<HomePage />} />
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
+      <Route path="/home" element={<HomePage />} />
       <Route path="/librarian" element={<LibrarianPage />} />
-      <Route path="/admin" element={<AdminPage />} />
+
+      <Route path="/admin" element={<AdminPage />}>
+        <Route path="students" element={""} />
+      </Route>
+
       <Route path="*" element={<NoPage />} />
     </Routes>
   );

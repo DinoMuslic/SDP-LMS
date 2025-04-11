@@ -2,9 +2,49 @@
 
 :root {
     --green: #156e3d;
+    --light: #fcf6f6;
+    --gray:  #cdd1d4;
+
+    --xxxl: 128px;
+    --xxl:   64px;
+    --xl:    48px;
+    --l:     32px;
+    --m:     24px;
 }
 
 html, body {
     font-family: 'Quicksand';
     font-weight: 500;
+}
+
+.font-xxxl {
+    font-size: var(--xxxl);
+}
+
+.font-xxl {
+    font-size: var(--xxl);
+}
+
+.font-xl {
+    font-size: var(--xl);
+}
+
+.font-l {
+    font-size: var(--l);
+}
+
+.font-m {
+    font-size: var(--m);
+}
+
+.my-btn {
+    color: var(--green);
+    background-color: var(--light);
+    border: 1px solid var(--green);
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.my-btn:hover {
+    background-color: var(--gray);
 }

@@ -1,0 +1,15 @@
+.header {
+    background-color: var(--green);
+}
+
+.library-logo {
+    height: 48px;
+}
+
+.container .navbar-brand {
+    color: var(--light);
+}
+
+.navbar-nav .nav-link {
+    color: var(--light);
+}
