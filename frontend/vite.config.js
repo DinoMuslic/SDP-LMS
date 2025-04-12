@@ -11,6 +11,8 @@ export default defineConfig({
       "@components": "/src/components",
       "@images": "/src/assets/images",
       "@pages": "/src/pages",
+      "@services": "/src/services",
+      "@hooks": "/src/hooks",
     },
   },
   server: {

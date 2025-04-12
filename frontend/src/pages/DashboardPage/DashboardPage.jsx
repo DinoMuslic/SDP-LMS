@@ -1,6 +1,9 @@
+import AuthService from "@services/auth_service";
 import Datatable from "@components/Datatable/Datatable";
 
 const DashboardPage = () => {
+  AuthService.checkAuth();
+
   const userData = [
     {
       id: 1,

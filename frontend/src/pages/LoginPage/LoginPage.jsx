@@ -8,8 +8,6 @@ import Form from "react-bootstrap/Form";
 
 import MyToast from "@components/Toast/Toast";
 
-import "./LoginPage.css";
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,41 +54,48 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 position-relative">
-      <Form className="login-form p-3 w-25 rounded">
-        <p className="h4 text-center">Login</p>
+    <div className="bg-green d-flex justify-content-center align-items-center min-vh-100 position-relative">
+      <Form className="p-3 w-25 rounded bg-white">
+        <p className="font-l text-center mb-4 mt-4 c-dark-green">Login</p>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
             name="email"
-            placeholder="Enter email"
+            placeholder="Enter your email"
             value={email}
             onChange={handleEmailChange}
+            className="pt-3 pb-3 mb-4"
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Enter your password"
             value={password}
             onChange={handlePasswordChange}
+            className="pt-3 pb-3 mb-4"
           />
         </Form.Group>
 
-        <div className="w-100 mb-3 text-center">
-          <a href="/register">Don't have an Account?</a>
-        </div>
-
         <Container className="d-flex justify-content-center w-100">
-          <Button variant="success" onClick={handleLogin}>
+          <Button className="my-btn w-100 font-s" onClick={handleLogin}>
             Login
           </Button>
         </Container>
+
+        <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+          <p className="m-0 me-2">Don't have an Account?</p>
+          <Button
+            variant="link"
+            href="/register"
+            className="p-0 text-decoration-none c-dark-green"
+          >
+            Signup
+          </Button>
+        </div>
       </Form>
 
       {showToast && (

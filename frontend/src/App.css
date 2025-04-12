@@ -1,57 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Quicksand:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Quicksand:wght@300..700&display=swap");
 
 :root {
-    --green: #156e3d;
-    --light: #fcf6f6;
-    --gray:  #cdd1d4;
+  --green: #009578;
+  --darker-green: #00755e;
+  --light: #fcf6f6;
+  --gray: #cdd1d4;
 
-    --xxxl: 128px;
-    --xxl:   64px;
-    --xl:    48px;
-    --l:     32px;
-    --m:     24px;
+  --xxxl: 128px;
+  --xxl: 64px;
+  --xl: 48px;
+  --l: 32px;
+  --m: 24px;
+  --s: 18px;
 }
 
-html, body {
-    font-family: 'Quicksand';
-    font-weight: 500;
+html,
+body {
+  font-family: "Quicksand";
+  font-weight: 500;
+}
+
+.bg-green {
+  background-color: var(--green);
+}
+
+.c-green {
+  color: var(--green);
+}
+
+.c-dark-green {
+  color: var(--darker-green);
 }
 
 .font-xxxl {
-    font-size: var(--xxxl);
+  font-size: var(--xxxl);
 }
 
 .font-xxl {
-    font-size: var(--xxl);
+  font-size: var(--xxl);
 }
 
 .font-xl {
-    font-size: var(--xl);
+  font-size: var(--xl);
 }
 
 .font-l {
-    font-size: var(--l);
+  font-size: var(--l);
 }
 
 .font-m {
-    font-size: var(--m);
+  font-size: var(--m);
+}
+
+.font-s {
+  font-size: var(--s);
 }
 
 .my-center-container {
-    height: 75vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .my-btn {
-    color: var(--green);
-    background-color: var(--light);
-    border: 1px solid var(--green);
-    border-radius: 10px;
-    padding: 8px;
+  color: white;
+  background-color: var(--green);
+  border: 5px solid white;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .my-btn:hover {
-    background-color: var(--gray);
+  background-color: var(--darker-green);
+  border: 5px solid white;
+}
+
+.my-btn:active {
+  background-color: var(--darker-green);
+  border: 5px solid white;
 }

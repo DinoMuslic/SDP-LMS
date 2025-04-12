@@ -9,7 +9,6 @@ import userIcon from "@images/user.png";
 
 const Header = () => {
   const role = localStorage.getItem("role");
-  const token = localStorage.getItem("token");
 
   return (
     <>
@@ -26,8 +25,8 @@ const Header = () => {
               {role === "student" ? (
                 <>
                   <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link href="/profile">Profile</Nav.Link>
                   <Nav.Link href="/books">Books</Nav.Link>
+                  <Nav.Link href="/profile">Profile</Nav.Link>
                 </>
               ) : role === "admin" ? (
                 <>
@@ -50,11 +49,15 @@ const Header = () => {
         </Container>
         <div className="d-flex align-items-center text-light">
           {role && (
-            <div>
-              <a onClick={() => localStorage.clear()} href="/home">
+            <Navbar.Brand href="/profile">
+              <a
+                onClick={() => localStorage.clear()}
+                href="/home"
+                className="text-light"
+              >
                 Logout
               </a>
-            </div>
+            </Navbar.Brand>
           )}
           <Navbar.Brand href="/profile">
             <img className="logo ms-3" src={userIcon} alt="User" />
@@ -66,39 +69,3 @@ const Header = () => {
 };
 
 export default Header;
-
-{
-  /* <>
-      {role === "student" ? (
-        <Navbar bg="light" data-bs-theme="light">
-          <Container className="m-0 mb-4">
-            <Navbar.Brand href="/home">Student Navbar</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/books">Books</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-      ) : role === "admin" ? (
-        <Navbar bg="light" data-bs-theme="light">
-          <Container className="m-0 mb-4">
-            <Navbar.Brand href="#home">Admin Navbar</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-      ) : role === "librarian" ? (
-        <Navbar bg="light" data-bs-theme="light">
-          <Container className="m-0 mb-4">
-            <Navbar.Brand href="/home">Librarian Navbar</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-      ) : null}
-    </> */
-}

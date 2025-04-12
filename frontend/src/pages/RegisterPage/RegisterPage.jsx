@@ -8,8 +8,6 @@ import Form from "react-bootstrap/Form";
 
 import MyToast from "@components/Toast/Toast";
 
-import "./RegisterPage.css";
-
 const RegisterPage = () => {
   const [firstName, setFirsName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -82,20 +80,20 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 position-relative">
-      <Form className="login-form p-3 w-25 rounded needs-validation">
-        <p className="h4 text-center">Register</p>
+    <div className="bg-green d-flex justify-content-center align-items-center min-vh-100 position-relative">
+      <Form className="bg-white p-3 w-25 rounded needs-validation">
+        <p className="font-l text-center mb-4 mt-4 c-dark-green">Register</p>
 
         <Form.Group className="mb-3">
-          <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
             name="first_name"
-            placeholder="Enter first name"
+            placeholder="Enter your first name"
             value={firstName}
             onChange={handleFirstNameChange}
             required
             isInvalid={!!formErrors.firstName}
+            className="pt-3 pb-3 mb-4"
           />
           <Form.Control.Feedback type="invalid">
             {formErrors.firstName}
@@ -103,15 +101,15 @@ const RegisterPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
             name="last_name"
-            placeholder="Enter last name"
+            placeholder="Enter your last name"
             value={lastName}
             onChange={handleLastNameChange}
             required
             isInvalid={!!formErrors.lastName}
+            className="pt-3 pb-3 mb-4"
           />
           <Form.Control.Feedback type="invalid">
             {formErrors.lastName}
@@ -119,15 +117,15 @@ const RegisterPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
             name="email"
-            placeholder="Enter email"
+            placeholder="Enter your email"
             value={email}
             onChange={handleEmailChange}
             required
             isInvalid={!!formErrors.email}
+            className="pt-3 pb-3 mb-4"
           />
           <Form.Control.Feedback type="invalid">
             {formErrors.email}
@@ -135,15 +133,15 @@ const RegisterPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Create a password"
             value={password}
             onChange={handlePasswordChange}
             required
             isInvalid={!!formErrors.password}
+            className="pt-3 pb-3 mb-4"
           />
           <Form.Control.Feedback type="invalid">
             {formErrors.password}
@@ -151,30 +149,37 @@ const RegisterPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             name="confirmPassword"
-            placeholder="Confirm Password"
+            placeholder="Confirm your password"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             required
             isInvalid={!!formErrors.confirmPassword}
+            className="pt-3 pb-3 mb-4"
           />
           <Form.Control.Feedback type="invalid">
             {formErrors.confirmPassword}
           </Form.Control.Feedback>
         </Form.Group>
 
-        <div className="w-100 mb-3 text-center">
-          <a href="/login">Already have an Account?</a>
-        </div>
-
         <Container className="d-flex justify-content-center w-100">
-          <Button variant="success" onClick={handleRegister}>
-            Register
+          <Button className="my-btn w-100 font-s" onClick={handleRegister}>
+            Signup
           </Button>
         </Container>
+
+        <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+          <p className="m-0 me-2">Already have an Account?</p>
+          <Button
+            variant="link"
+            href="/login"
+            className="p-0 text-decoration-none c-dark-green"
+          >
+            Login
+          </Button>
+        </div>
       </Form>
 
       {showToast && (
