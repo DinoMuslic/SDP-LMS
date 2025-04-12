@@ -42,7 +42,7 @@ const LoginPage = () => {
       role === "student"
         ? navigate("/home")
         : role === "admin"
-        ? navigate("/admin")
+        ? navigate("/dashboard")
         : navigate("/librarian");
     } catch (error) {
       setToastTitle("Error");

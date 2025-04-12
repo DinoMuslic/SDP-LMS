@@ -61,7 +61,9 @@ const Header = () => {
                 Logout
               </Nav.Link>
 
-              <img className="logo ms-4 me-2" src={userIcon} alt="User" />
+              <Nav.Link href="/profile">
+                <img className="logo ms-4 me-2" src={userIcon} alt="User" />
+              </Nav.Link>
             </>
           )}
         </div>
