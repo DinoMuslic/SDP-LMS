@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Form from "react-bootstrap/Form";
-import DataTable, { createTheme } from "react-data-table-component";
+import DataTable from "react-data-table-component";
 
 import { FaEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
+import { capitalizeFirstLetter } from "@utils/utils";
+
 import "./Datatable.css";
 
 const Datatable = ({ data }) => {
-  function capitalizeFirstLetter(val) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-  }
-
   const customStyles = {
     table: {
       style: {
