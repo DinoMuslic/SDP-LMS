@@ -49,19 +49,21 @@ const Header = () => {
         </Container>
         <div className="d-flex align-items-center text-light">
           {role && (
-            <Navbar.Brand href="/profile">
-              <a
-                onClick={() => localStorage.clear()}
+            <>
+              <Nav.Link
                 href="/home"
                 className="text-light"
+                onClick={() => {
+                  localStorage.removeItem("role");
+                  localStorage.removeItem("token");
+                }}
               >
                 Logout
-              </a>
-            </Navbar.Brand>
+              </Nav.Link>
+
+              <img className="logo ms-4 me-2" src={userIcon} alt="User" />
+            </>
           )}
-          <Navbar.Brand href="/profile">
-            <img className="logo ms-3" src={userIcon} alt="User" />
-          </Navbar.Brand>
         </div>
       </Navbar>
     </>
