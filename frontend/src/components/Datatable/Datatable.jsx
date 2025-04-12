@@ -65,7 +65,6 @@ const Datatable = ({ data }) => {
 
   const handleOptionClick = (event) => {
     setType(event.target.value);
-    console.log(type);
   };
 
   const columns =

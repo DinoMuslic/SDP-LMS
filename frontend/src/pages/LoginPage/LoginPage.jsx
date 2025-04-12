@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 
 import MyToast from "@components/Toast/Toast";
 
+import "./LoginPage.css"
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +57,7 @@ const LoginPage = () => {
 
   return (
     <div className="bg-green d-flex justify-content-center align-items-center min-vh-100 position-relative">
-      <Form className="p-3 w-25 rounded bg-white">
+      <Form className="p-3 login rounded bg-white">
         <p className="font-l text-center mb-4 mt-4 c-dark-green">Login</p>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">

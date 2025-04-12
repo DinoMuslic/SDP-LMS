@@ -7,7 +7,7 @@ const AuthService = {
     },
     checkAuth: () => {
         useCheckAuth();
-    }
+    },
 }
 
 export default AuthService;

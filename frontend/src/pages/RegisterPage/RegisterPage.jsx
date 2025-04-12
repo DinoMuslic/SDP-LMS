@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 
 import MyToast from "@components/Toast/Toast";
 
+import "./RegisterPage.css";
+
 const RegisterPage = () => {
   const [firstName, setFirsName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -81,7 +83,7 @@ const RegisterPage = () => {
 
   return (
     <div className="bg-green d-flex justify-content-center align-items-center min-vh-100 position-relative">
-      <Form className="bg-white p-3 w-25 rounded needs-validation">
+      <Form className="bg-white p-3 register rounded needs-validation">
         <p className="font-l text-center mb-4 mt-4 c-dark-green">Register</p>
 
         <Form.Group className="mb-3">
