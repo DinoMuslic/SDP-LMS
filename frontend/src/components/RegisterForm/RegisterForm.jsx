@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { Form, Container, Button } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+
+import { validateRegisterForm } from "@utils/utils";
 
 const RegisterForm = ({
   setShowToast,
@@ -32,27 +36,15 @@ const RegisterForm = ({
 
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    const errors = {};
-
-    if (!firstName) errors.firstName = "First Name is required";
-    if (!lastName) errors.lastName = "Last Name is required";
-    if (!email) errors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(email)) errors.email = "Email is invalid";
-    if (!password) errors.password = "Password is required";
-    else if (password.length < 8)
-      errors.password = "Password must be at least 8 characters";
-    if (password !== confirmPassword)
-      errors.confirmPassword = "Passwords do not match";
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  
 
   const handleRegister = async (event) => {
     event.preventDefault();
 
-    if (!validateForm()) return;
+    const errors = validateRegisterForm(firstName, lastName, email, password, confirmPassword);
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) return;
 
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {

@@ -1,10 +1,9 @@
-import MyModal from "@components/Modal/MyModal";
+import { useState } from "react";
 
 const HomePage = () => {
   return (
     <>
       <div className="font-xxxl my-center-container">Home Page</div>
-      <MyModal type={"user"} action={"edit"} />
     </>
   );
 };
