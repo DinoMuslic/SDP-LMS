@@ -1,0 +1,35 @@
+.register {
+    width: 25%;
+}
+
+@media (max-width: 1360px) {
+    .register {
+      width: 30% !important;
+    }
+  }
+
+@media (max-width: 1081px) {
+  .register {
+    width: 35% !important;
+  }
+}
+
+@media (max-width: 798px) {
+    .register {
+      width: 40% !important;
+    }
+  }
+
+  @media (max-width: 698px) {
+    .register {
+      width: 61% !important;
+    }
+  }
+  
+
+  @media (max-width: 458px) {
+    .register {
+      width: 65% !important;
+    }
+  }
+  

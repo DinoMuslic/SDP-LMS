@@ -1,0 +1,20 @@
+.header {
+    background-color: var(--green);
+}
+
+.logo {
+    height: 48px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.075);
+}
+
+.container .navbar-brand {
+    color: var(--light);
+}
+
+.navbar-nav .nav-link {
+    color: var(--light);
+}

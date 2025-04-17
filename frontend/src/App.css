@@ -1,4 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Quicksand:wght@300..700&display=swap");
+
+:root {
+  --green: #009578;
+  --darker-green: #00755e;
+  --light: #fcf6f6;
+  --gray: #cdd1d4;
+
+  --xxxl: 128px;
+  --xxl: 64px;
+  --xl: 48px;
+  --l: 32px;
+  --m: 24px;
+  --s: 18px;
+}
+
+html,
 body {
-  background-color: #123456;
-  color: aliceblue;
+  font-family: "Quicksand";
+  font-weight: 500;
+}
+
+.bg-green {
+  background-color: var(--green);
+}
+
+.c-green {
+  color: var(--green);
+}
+
+.c-dark-green {
+  color: var(--darker-green);
+}
+
+.font-xxxl {
+  font-size: var(--xxxl);
+}
+
+.font-xxl {
+  font-size: var(--xxl);
+}
+
+.font-xl {
+  font-size: var(--xl);
+}
+
+.font-l {
+  font-size: var(--l);
+}
+
+.font-m {
+  font-size: var(--m);
+}
+
+.font-s {
+  font-size: var(--s);
+}
+
+.my-center-container {
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-btn {
+  color: white;
+  background-color: var(--green);
+  border: 5px solid white;
+  border-radius: 10px;
+  padding: 7px;
+}
+
+.my-btn:hover {
+  background-color: var(--darker-green);
+  border: 5px solid white;
+}
+
+.my-btn:active {
+  background-color: var(--darker-green);
+  border: 5px solid white;
 }

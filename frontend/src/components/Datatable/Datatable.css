@@ -1,0 +1,9 @@
+.data-table-icon:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.datatable-select {
+    height: 45px !important;
+    width: 175px !important;
+}

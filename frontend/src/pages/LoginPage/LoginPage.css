@@ -1,0 +1,28 @@
+.login {
+    width: 25%;
+}
+
+@media (max-width: 1360px) {
+    .login {
+      width: 30% !important;
+    }
+  }
+
+@media (max-width: 1081px) {
+  .login {
+    width: 35% !important;
+  }
+}
+
+@media (max-width: 773px) {
+    .login {
+      width: 40% !important;
+    }
+  }
+
+  @media (max-width: 676px) {
+    .login {
+      width: 61% !important;
+    }
+  }
+  

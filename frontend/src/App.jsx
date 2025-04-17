@@ -1,39 +1,37 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { BrowserRouter, useLocation } from "react-router-dom";
+import Router from "./Router/Router";
 
+import AuthService from "@services/auth_service";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import Header from "@components/Header/Header";
+
 const App = () => {
-  const [data, setData] = useState(null);
-  const API_URL = import.meta.env.VITE_API_URL;
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+};
+
+const AppContent = () => {
+  AuthService.checkToken();
+
+  const location = useLocation();
+  const [url, setUrl] = useState(window.location.href);
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/users`)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the data!", error);
-      });
-  }, []);
+    setUrl(location.pathname);
+  }, [location]);
 
   return (
-    <div>
-      <h1>Users:</h1>
-      {data ? (
-        <ul>
-          {data.map(user => (
-            <li key={user.id}>
-              {user.first_name} {user.last_name}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <>
+      {url.includes("/login") || url.includes("/register") ? null : <Header />}
+      <Router />
+    </>
   );
 };
 
