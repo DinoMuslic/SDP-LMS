@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import UserForm from "@components/UserForm/UserForm";
-// import BookForm from "@components/BookForm/BookForm";
-// import ArtistForm from "@components/ArtistForm/ArtistForm";
+import BookForm from "@components/BookForm/BookForm";
+import AuthorForm from "@components/AuthorForm/AuthorForm";
 
 import { capitalizeFirstLetter } from "@utils/utils";
 
@@ -32,10 +32,10 @@ const MyModal = ({ show, type, action, handleClose, initialData, onFormSubmit })
     switch (type) {
       case "user":
         return <UserForm {...commonProps} />;
-      // case "book":
-      //   return <BookForm {...commonProps} />;
-      // case "artist":
-      //   return <ArtistForm {...commonProps} />;
+      case "book":
+        return <BookForm {...commonProps} />;
+      case "author":
+        return <AuthorForm {...commonProps} />;
       default:
         return null;
     }

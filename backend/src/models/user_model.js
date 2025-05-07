@@ -45,6 +45,20 @@ const createUser = async (first_name, last_name, email, password) => {
   }
 };
 
+const addUser = async (first_name, last_name, email, password, role) => {
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.query(
+      "INSERT INTO users (first_name, last_name, email, password, role) VALUES(?, ?, ?, ?, ?)",
+      [first_name, last_name, email, hashedPassword, role]
+    );
+    return { message: "User added sucessfully" }
+  } catch (error) {
+    console.log("Database error:", error);
+    throw error;
+  }
+};
+
 const updateUser = async (
   id,
   { first_name, last_name, email, role, password }
@@ -77,14 +91,14 @@ const updateUser = async (
   }
 };
 
-const deleteUser = async id => {
+const deleteUser = async (id) => {
   try {
     const query = await db.query("DELETE FROM users WHERE id = ?", [id]);
-    
-    if(query.affectedRows === 0) {
+
+    if (query.affectedRows === 0) {
       return null;
     }
-  } catch(error) {
+  } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
@@ -95,6 +109,7 @@ module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
+  addUser,
   updateUser,
-  deleteUser
+  deleteUser,
 };

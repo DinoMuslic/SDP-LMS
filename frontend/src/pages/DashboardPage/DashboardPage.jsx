@@ -3,6 +3,8 @@ import AuthService from "@services/auth_service";
 import Datatable from "@components/Datatable/Datatable";
 import MyModal from "@components/Modal/MyModal";
 import UserService from "@services/user_service";
+import AuthorService from "@services/author_service";
+import BookService from "@services/book_service";
 
 const DashboardPage = () => {
   AuthService.checkAuth();
@@ -11,16 +13,27 @@ const DashboardPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedTable, setSelectedTable] = useState("users");
-  const [userData, setUserData] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [data, setData] = useState([]);
 
-  const fetchUserData = async () => {
-    const data = await UserService.get();
-    setUserData(data);
+  const fetchData = async () => {
+    try {
+      if (selectedTable === "users") {
+        const userData = await UserService.get();
+        setData(userData);
+      } else if (selectedTable === "authors") {
+        const authorData = await AuthorService.get();
+        setData(authorData);
+      } else if (selectedTable === "books") {
+        const bookData = await BookService.get();
+        setData(bookData);
+      }
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    }
   };
 
   const handleRowAction = (action, rowData, tableType) => {
-
     setModalType(tableType.slice(0, -1));
     setModalAction(action);
     setSelectedRow(rowData);
@@ -35,33 +48,34 @@ const DashboardPage = () => {
   };
 
   const handleFormSubmit = async (data) => {
-    console.log("Form submitted:", data);
-    
-    // Handle different actions
-    if (modalAction === "edit") {
-      await UserService.update(data);
-    } else if (modalAction === "add") {
-      await UserService.create(data);
+    if (modalType === "user") {
+      if (modalAction === "edit") await UserService.update(data.id, data);
+      else if (modalAction === "add") await UserService.create(data);
+    } else if (modalType === "author") {
+      if (modalAction === "edit") await AuthorService.update(data.id, data);
+      else if (modalAction === "add") await AuthorService.add(data);
+    } else if (modalType === "book") {
+      if (modalAction === "edit") await BookService.update(data.id, data);
+      else if (modalAction === "add") await BookService.add(data);
     }
-    
-    // After successful form submission, trigger a refresh
-    setRefreshTrigger(prev => prev + 1);
+
+    setRefreshTrigger((prev) => prev + 1);
     handleCloseModal();
   };
 
-  // Handle data refresh after delete from Datatable component
   const handleDataChange = () => {
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   useEffect(() => {
-    fetchUserData();
-  }, [refreshTrigger]);
+    fetchData();
+  }, [refreshTrigger, selectedTable]);
 
   return (
     <div className="p-5">
       <Datatable
-        data={userData}
+        key={refreshTrigger}
+        data={data}
         type={selectedTable}
         setType={setSelectedTable}
         onRowAction={handleRowAction}

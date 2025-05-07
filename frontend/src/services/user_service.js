@@ -11,6 +11,13 @@ const UserService = {
       console.log("Error fetching users.");
     }
   },
+  add: async (data) => {
+    try {
+      axios.post(`${import.meta.env.VITE_API_URL}/users/add`, data);
+    } catch (error) {
+      console.log("Error adding user.");
+    }
+  },
   update: async (id, data) => {
     try {
       axios.put(`${import.meta.env.VITE_API_URL}/users/${id}`, data);
