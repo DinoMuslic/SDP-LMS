@@ -13,21 +13,21 @@ const BookService = {
   },
   add: async (data) => {
     try {
-      axios.post(`${import.meta.env.VITE_API_URL}/books/add`, data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/books/add`, data);
     } catch (error) {
       console.log("Error adding book.");
     }
   },
   update: async (id, data) => {
     try {
-      axios.put(`${import.meta.env.VITE_API_URL}/books/update/${id}`, data);
+      await axios.put(`${import.meta.env.VITE_API_URL}/books/update/${id}`, data);
     } catch (error) {
       console.log("Error updating book.");
     }
   },
   delete: async (id) => {
     try {
-        axios.delete(`${import.meta.env.VITE_API_URL}/books/delete/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/books/delete/${id}`);
     } catch (error) {
         console.log("Error deleting book.");
     }

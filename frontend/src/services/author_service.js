@@ -13,21 +13,21 @@ const AuthorService = {
   },
   add: async (data) => {
     try {
-      axios.post(`${import.meta.env.VITE_API_URL}/authors/add`, data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/authors/add`, data);
     } catch (error) {
       console.log("Error adding author.");
     }
   },
   update: async (id, data) => {
     try {
-      axios.put(`${import.meta.env.VITE_API_URL}/authors/update/${id}`, data);
+      await axios.put(`${import.meta.env.VITE_API_URL}/authors/update/${id}`, data);
     } catch (error) {
       console.log("Error updating author.");
     }
   },
   delete: async (id) => {
     try {
-        axios.delete(`${import.meta.env.VITE_API_URL}/authors/delete/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/authors/delete/${id}`);
     } catch (error) {
         console.log("Error deleting author.");
     }

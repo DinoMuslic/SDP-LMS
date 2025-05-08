@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import UserService from "@services/user_service";
-
 const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
   const isEdit = !!initialValues.id;
 
@@ -22,7 +20,7 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
       setFormData((prev) => ({
         ...prev,
         ...initialValues,
-        password: "", // don't preload password
+        password: "",
       }));
     }
   }, [initialValues]);
@@ -58,7 +56,6 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
     e.preventDefault();
     if (validate()) {
       onSubmit(formData);
-      UserService.update(formData.id, formData);
     }
   };
 
@@ -107,7 +104,7 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        {/* <Form.Group className="mb-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -119,7 +116,7 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
           <Form.Control.Feedback type="invalid">
             {errors.password}
           </Form.Control.Feedback>
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group className="mb-3">
           <Form.Label>Role</Form.Label>

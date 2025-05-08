@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import AuthorService from "@services/author_service";
-
 const AuthorForm = ({ formRef, onSubmit, initialValues = {} }) => {
   const isEdit = !!initialValues.id;
 
@@ -53,7 +51,6 @@ const AuthorForm = ({ formRef, onSubmit, initialValues = {} }) => {
     e.preventDefault();
     if (validate()) {
       onSubmit(formData);
-      AuthorService.update(formData.id, formData);
     }
   };
 

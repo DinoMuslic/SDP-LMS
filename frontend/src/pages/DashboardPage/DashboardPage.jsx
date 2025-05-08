@@ -50,7 +50,7 @@ const DashboardPage = () => {
   const handleFormSubmit = async (data) => {
     if (modalType === "user") {
       if (modalAction === "edit") await UserService.update(data.id, data);
-      else if (modalAction === "add") await UserService.create(data);
+      else if (modalAction === "add") await UserService.add(data);
     } else if (modalType === "author") {
       if (modalAction === "edit") await AuthorService.update(data.id, data);
       else if (modalAction === "add") await AuthorService.add(data);
@@ -73,6 +73,41 @@ const DashboardPage = () => {
 
   return (
     <div className="p-5">
+      <div className="mb-5">
+        <button
+          className="my-btn"
+          onClick={() => {
+            setModalType("user");
+            setModalAction("add");
+            setSelectedRow(null);
+            setShowModal(true);
+          }}
+        >
+          Add User
+        </button>
+        <button
+          className="my-btn"
+          onClick={() => {
+            setModalType("author");
+            setModalAction("add");
+            setSelectedRow(null);
+            setShowModal(true);
+          }}
+        >
+          Add Author
+        </button>
+        <button
+          className="my-btn"
+          onClick={() => {
+            setModalType("book");
+            setModalAction("add");
+            setSelectedRow(null);
+            setShowModal(true);
+          }}
+        >
+          Add Book
+        </button>
+      </div>
       <Datatable
         key={refreshTrigger}
         data={data}
@@ -86,7 +121,7 @@ const DashboardPage = () => {
         type={modalType}
         action={modalAction}
         handleClose={handleCloseModal}
-        initialData={selectedRow}
+        initialData={selectedRow || {}}
         onFormSubmit={handleFormSubmit}
       />
     </div>

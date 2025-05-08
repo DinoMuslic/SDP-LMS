@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import BookService from "@services/book_service";
-
 const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
   const isEdit = !!initialValues.id;
 
@@ -49,7 +47,6 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
     e.preventDefault();
     if (validate()) {
       onSubmit(formData);
-      BookService.update(formData.id, formData);
     }
   };
 

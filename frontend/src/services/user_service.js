@@ -13,23 +13,23 @@ const UserService = {
   },
   add: async (data) => {
     try {
-      axios.post(`${import.meta.env.VITE_API_URL}/users/add`, data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/add`, data);
     } catch (error) {
       console.log("Error adding user.");
     }
   },
   update: async (id, data) => {
     try {
-      axios.put(`${import.meta.env.VITE_API_URL}/users/${id}`, data);
+      await axios.put(`${import.meta.env.VITE_API_URL}/users/${id}`, data);
     } catch (error) {
       console.log("Error updating user.");
     }
   },
   delete: async (id) => {
     try {
-        axios.delete(`${import.meta.env.VITE_API_URL}/users/delete/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/users/delete/${id}`);
     } catch (error) {
-        console.log("Error deleting user.");
+      console.log("Error deleting user.");
     }
   },
 };
