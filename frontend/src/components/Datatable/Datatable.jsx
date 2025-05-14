@@ -6,15 +6,17 @@ import { capitalizeFirstLetter } from "@utils/utils";
 
 import DeleteModal from "@components/DeleteModal/DeleteModal";
 import UserService from "@services/user_service";
+import AuthorService from "@services/author_service";
+import BookService from "@services/book_service";
 
 import "./Datatable.css";
 
 const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
-  // --- Modal state ---
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  // --- Custom styles for DataTable ---
+  
   const customStyles = {
     table: {
       style: { borderRadius: "15px" },
@@ -47,7 +49,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
     },
   };
 
-  // --- Column definitions based on type ---
+  
   const columnsMap = {
     users: [
       { name: "ID", selector: row => row.id, sortable: true },
@@ -59,18 +61,22 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
     books: [
       { name: "ID", selector: row => row.id, sortable: true },
       { name: "ISBN", selector: row => row.isbn, sortable: true },
-      { name: "Artist", selector: row => row.artist, sortable: true },
+      { name: "Title", selector: row => row.name, sortable: true },
+      { name: "Genre", selector: row => row.genre, sortable: true },
+      { name: "Publication Year", selector: row => row.year_of_publication, sortable: true },
+      { name: "Publisher ID", selector: row => row.publisher_id, sortable: true },
+      { name: "Author ID", selector: row => row.author_id, sortable: true },
     ],
-    artists: [
+    authors: [
       { name: "ID", selector: row => row.id, sortable: true },
       { name: "First Name", selector: row => row.first_name, sortable: true },
       { name: "Last Name", selector: row => row.last_name, sortable: true },
-      { name: "Birth Year", selector: row => row.birth_year, sortable: true },
-      { name: "Death Year", selector: row => row.death_year, sortable: true },
+      { name: "Year of Birth", selector: row => row.year_of_birth, sortable: true },
+      { name: "Year of Death", selector: row => row.year_of_death, sortable: true },
     ],
   };
 
-  // --- Action column with Edit & Delete icons ---
+
   const actionColumn = {
     name: "Actions",
     cell: row => (
@@ -97,7 +103,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
 
   const columns = [...(columnsMap[type] || []), actionColumn];
 
-  // --- Filtering & pagination reset ---
+ 
   const [filterText, setFilterText] = useState("");
   const [resetPagination, setResetPagination] = useState(false);
   const handleFilter = e => {
@@ -113,8 +119,14 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
 
   const handleDelete = async () => {
     try {
-      await UserService.delete(selectedRow.id);
-      onRowAction("delete", selectedRow, type);
+      if (type === "users") {
+        await UserService.delete(selectedRow.id);
+      } else if (type === "authors") {
+        await AuthorService.delete(selectedRow.id);
+      }
+      else if (type === "books") {
+        await BookService.delete(selectedRow.id);
+      }
       onDataChange();
     } catch (err) {
       console.error("Failed to delete:", err);
@@ -125,7 +137,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between mb-4">
         <Form.Select
           className="datatable-select"
           value={type}
@@ -133,7 +145,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
         >
           <option value="users">Users</option>
           <option value="books">Books</option>
-          <option value="artists">Artists</option>
+          <option value="authors">Authors</option>
         </Form.Select>
 
         <input

@@ -10,10 +10,10 @@ const connection = mysql.createPool({
 
 connection.query('SELECT 1')
   .then(() => {
-    console.log("✅ Connected to MySQL");
+    console.log("Connected to MySQL");
   })
   .catch(err => {
-    console.error("❌ Error connecting to MySQL", err);
+    console.error("Error connecting to MySQL", err);
   });
 
 module.exports = connection;

@@ -18,3 +18,7 @@
 .navbar-nav .nav-link {
     color: var(--light);
 }
+
+.nav-link:hover {
+    color: rgb(134, 197, 240);
+}

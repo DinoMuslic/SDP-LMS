@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <>
       <Navbar
-        className="header mb-5 d-flex justify-content-between"
+        className="header d-flex justify-content-between"
         data-bs-theme="light"
       >
         <Container className="m-0">

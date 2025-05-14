@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
+const AuthorForm = ({ formRef, onSubmit, initialValues = {} }) => {
   const isEdit = !!initialValues.id;
 
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
-    email: "",
-    role: "student",
-    password: "",
+    year_of_birth: "",
+    year_of_death: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -20,7 +19,6 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
       setFormData((prev) => ({
         ...prev,
         ...initialValues,
-        password: "",
       }));
     }
   }, [initialValues]);
@@ -33,16 +31,13 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
     if (!formData.last_name || formData.last_name.length < 2) {
       newErrors.last_name = "Last name must be at least 2 characters.";
     }
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Valid email is required.";
+    if (!formData.year_of_birth) {
+      newErrors.year_of_birth = "Year of birth is required.";
     }
-    if (!isEdit && (!formData.password || formData.password.length < 6)) {
-      newErrors.password = "Password must be at least 6 characters.";
+    if (formData.year_of_death < formData.year_of_birth) {
+        newErrors.year_of_death = "Year of death can't be lesser than year of birth.";
     }
-    if (!["student", "librarian", "admin"].includes(formData.role)) {
-      newErrors.role = "Role must be student librarian or admin.";
-    }
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,65 +86,32 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Year of Birth</Form.Label>
           <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
+            type="number"
+            name="year_of_birth"
+            value={formData.year_of_birth}
             onChange={handleChange}
-            isInvalid={!!errors.email}
+            isInvalid={!!errors.year_of_birth}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.email}
+            {errors.year_of_birth}
           </Form.Control.Feedback>
         </Form.Group>
-
-        {/* <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            isInvalid={!!errors.password}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.password}
-          </Form.Control.Feedback>
-        </Form.Group> */}
 
         <Form.Group className="mb-3">
-          <Form.Label>Role</Form.Label>
-          <Form.Select
-            name="role"
-            value={formData.role}
+          <Form.Label>Year of Death</Form.Label>
+          <Form.Control
+            type="number"
+            name="year_of_death"
+            value={formData.year_of_death}
             onChange={handleChange}
-            isInvalid={!!errors.role}
-          >
-            <option value="student">Student</option>
-            <option value="librarian">Librarian</option>
-            <option value="admin">Admin</option>
-          </Form.Select>
+            isInvalid={!!errors.year_of_death}
+          />
           <Form.Control.Feedback type="invalid">
-            {errors.role}
+            {errors.year_of_death}
           </Form.Control.Feedback>
         </Form.Group>
-
-        {!isEdit && (
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              isInvalid={!!errors.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
-          </Form.Group>
-        )}
 
         <Button type="submit" className="d-none">
           Submit
@@ -159,4 +121,4 @@ const UserForm = ({ formRef, onSubmit, initialValues = {} }) => {
   );
 };
 
-export default UserForm;
+export default AuthorForm;
