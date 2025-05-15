@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react";
 import BookCard from "../../components/BookCard/BookCard";
-
-import books from "../../data/books.json";
+import BookService from "../../services/book_service";
 
 const BooksPage = () => {
-  console.log(books[0].yearOfPublishing);
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const data = await BookService.getBooksInfo();
+      console.log(data);
+      setBooks(data);
+    }
+    fetchBooks();
+  }, []);
 
   return (
     <div className="container">
