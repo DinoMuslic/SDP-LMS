@@ -10,7 +10,7 @@ const getAllBooks = async () => {
   }
 };
 
-const getBookById = async (id) => {
+const getBookById = async id => {
   try {
     const rows = await db.query("SELECT * FROM books WHERE id = ?", [id]);
     return rows[0];
@@ -52,7 +52,7 @@ const updateBook = async(id, { isbn, name, genre, year_of_publication, publisher
   }
 }
 
-const deleteBook = async(id) => {
+const deleteBook = async id => {
   try {
     await db.query(
       "DELETE FROM books WHERE id = ?", [id]
@@ -62,4 +62,27 @@ const deleteBook = async(id) => {
   }
 }
 
-module.exports = { getAllBooks, getBookById, addBook, updateBook, deleteBook };
+const getAllBooksInfo = async() => {
+  try {
+    const rows = await db.query(
+      "SELECT b.name as title, b.genre, b.year_of_publication as yob, b.image, b.description, b.amount , CONCAT(a.first_name, ' ', a.last_name) as author, p.name as publisher FROM books b JOIN authors a ON b.author_id = a.id JOIN publishers p ON b.publisher_id = p.id"
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error);
+  }
+}
+
+const checkAvailability = async bookName => {
+  try {
+    const rows = await db.query(
+      "SELECT SUM(amount) as amount FROM books WHERE name LIKE ?",
+      [bookName]
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error)
+  }
+}
+
+module.exports = { getAllBooks, getBookById, addBook, updateBook, deleteBook, getAllBooksInfo, checkAvailability };

@@ -53,4 +53,28 @@ const deleteBook = async (req, res) => {
   }
 }
 
-module.exports = { getBooks, getBook, addBook, updateBook, deleteBook };
+const getBooksInfo = async(req, res) => {
+  try {
+    const books = await Book.getAllBooksInfo();
+    res.json(books);
+  } catch (error) {
+    console.log("Error fetching books:", error);
+    res.status(500).json({error: "Server error"});
+  }
+}
+
+const checkAvailability = async(req, res) => {
+  try {
+    const title = req.params.title;
+    const response = await Book.checkAvailability(title);
+
+    if(response[0].amount === 0 || response[0].amount === null) {
+      res.status(404).json({message: `Book with title ${title} not found.`});
+    } else res.status(201).json(response[0]);    
+  } catch (error) {
+    console.log("Error checking book availability:", error);
+    res.status(500).json({error: "Server error"});
+  }
+}
+
+module.exports = { getBooks, getBook, addBook, updateBook, deleteBook, getBooksInfo, checkAvailability };
