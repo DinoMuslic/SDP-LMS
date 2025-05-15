@@ -22,14 +22,7 @@ const BookCard = (props) => {
           <b>Publisher: </b>
           {props.publisher} ({props.yob})
         </div>
-        <div className="text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto,
-          aliquam. Eum labore quidem sit! Id unde accusantium quaerat blanditiis
-          possimus cum, minus fuga reprehenderit quo quam animi, sapiente
-          maiores! Aliquid, nulla magnam natus corrupti molestiae, obcaecati
-          ipsa iure eaque voluptas cupiditate incidunt magni mollitia fugiat
-          laborum cum voluptatibus laboriosam doloribus.
-        </div>
+        <div className="text-justify">{props.description}</div>
       </div>
     </div>
   );
