@@ -21,6 +21,29 @@ const getUser = async (req, res) => {
   }
 };
 
+const addUser = async (req, res) => {
+  try {
+    const { first_name, last_name, email, password, role } = req.body;
+
+    const user = await User.getUserByEmail(email);
+    if (user[0]) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    const result = await User.addUser(
+      first_name,
+      last_name,
+      email,
+      password,
+      role
+    );
+    res.status(201).json(result);
+  } catch (error) {
+    console.log("Error adding user:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const result = await User.updateUser(req.params.id, req.body);
@@ -36,7 +59,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const result = await User.deleteUser(req.params.id);
+    await User.deleteUser(req.params.id);
     res.json({ message: "User deleted successfully." });
   } catch (error) {
     console.error("Error updating user:", error);
@@ -45,4 +68,4 @@ const deleteUser = async (req, res) => {
 };
 
 
-module.exports = { getUsers, getUser, updateUser, deleteUser };
+module.exports = { getUsers, getUser, addUser, updateUser, deleteUser };

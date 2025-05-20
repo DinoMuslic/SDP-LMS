@@ -1,0 +1,59 @@
+.book-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--book-card-radius);
+    transition: all 0.2s ease-out;
+}
+
+.book-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.img-container {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-top-right-radius: calc(var(--book-card-radius) - 3px);
+    border-top-left-radius: calc(var(--book-card-radius) - 3px);
+}
+
+.info-container {
+    background-color: gainsboro;
+    border-bottom-right-radius: calc(var(--book-card-radius) - 3px);
+    border-bottom-left-radius: calc(var(--book-card-radius) - 3px);
+    padding: 24px;
+}
+
+.author-img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.border-green {
+    border: 3px solid var(--green);
+}
+
+.border-top-green {
+    border-top: 3px solid var(--green);
+}
+
+.border-red {
+    border: 3px solid red;
+}
+
+.border-top-red {
+    border-top: 3px solid red;
+}
