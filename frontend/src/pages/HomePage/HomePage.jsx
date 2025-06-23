@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MyToast from "../../components/Toast/Toast";
-import BookService from "../../services/book_service";
+import MyToast from "@components/Toast/Toast";
+import BookService from "@services/book_service";
 
 const HomePage = () => {
   const [title, setTitle] = useState("");
