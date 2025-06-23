@@ -2,13 +2,13 @@ const db = require("./db");
 
 const addBorrowing = async (
   student_id,
-  book_id,
+  isbn,
   return_date,
 ) => {
   try {
     await db.query(
-      "INSERT INTO borrowings(student_id, book_id, return_date) VALUES(?, ?, ?)",
-      [student_id, book_id, return_date]
+      "INSERT INTO borrowings(student_id, isbn, return_date) VALUES(?, ?, ?)",
+      [student_id, isbn, return_date]
     );
   } catch (error) {
     console.error("Database error:", error);
