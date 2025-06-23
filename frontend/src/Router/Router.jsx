@@ -6,6 +6,8 @@ import HomePage from "@pages/HomePage/HomePage";
 import BooksPage from "@pages/BooksPage/BooksPage";
 import ProfilePage from "@pages/ProfilePage/ProfilePage";
 import LibrarianPage from "@pages/LibrarianPage/LibrarianPage";
+import StudentsPage from "@pages/StudentsPage/StudentsPage";
+import BorrowingsPage from "@pages/BorrowingsPage/BorrowingsPage";
 import AdminPage from "@pages/AdminPage/AdminPage";
 import DashboardPage from "@pages/DashboardPage/DashboardPage";
 import NoPage from "@pages/NoPage/NoPage";
@@ -20,6 +22,8 @@ const Router = () => {
       <Route path="/books" element={<BooksPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/librarian" element={<LibrarianPage />} />
+      <Route path="/students" element={<StudentsPage />} />
+      <Route path="/borrowings" element={<BorrowingsPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="*" element={<NoPage />} />
