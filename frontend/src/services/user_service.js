@@ -32,6 +32,16 @@ const UserService = {
       console.log("Error deleting user.");
     }
   },
+  getStudentsInfo: async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/students/`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting student info");
+    }
+  },
 };
 
 export default UserService;
