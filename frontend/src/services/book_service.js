@@ -46,9 +46,9 @@ const BookService = {
     try {
       const response = await axios.get(`${URL}/books/is-available/${title}`);
       if(response.data.amount == 0) return `No available copies of ${title}`
-      return `Book ${title} is available (${response.data.amount} copies)`;
+      return `Book is available (${response.data.amount} copies)`;
     } catch (error) {
-      return `Book ${title} not found`;
+      return `Book "${title}" not found`;
     }
   }
 };
