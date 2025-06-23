@@ -67,5 +67,15 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUsersInfo = async (req, res) => {
+  try {
+    const users = await User.getUsersInfo();
+    res.status(201).json(users);
+  } catch (error) {
+    console.error("Error getting users info:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+}
 
-module.exports = { getUsers, getUser, addUser, updateUser, deleteUser };
+
+module.exports = { getUsers, getUser, addUser, updateUser, deleteUser, getUsersInfo };
