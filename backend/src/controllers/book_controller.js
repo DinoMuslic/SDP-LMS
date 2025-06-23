@@ -12,7 +12,7 @@ const getBooks = async (req, res) => {
 
 const getBook = async (req, res) => {
   try {
-    const book = await Book.getBookById(req.params.id);
+    const book = await Book.getBookByIsbn(req.params.id);
     if (book.length === 0)
       return res.status(404).json({ error: "Book not found" });
     res.json(book);
