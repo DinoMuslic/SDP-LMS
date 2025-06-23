@@ -7,7 +7,6 @@ const BooksPage = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       const data = await BookService.getBooksInfo();
-      console.log(data);
       setBooks(data);
     }
     fetchBooks();
