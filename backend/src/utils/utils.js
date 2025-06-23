@@ -19,7 +19,4 @@ const getCurrentDateTime = () => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-// console.log(addDays("2025-07-06", 30));
-console.log(getCurrentDateTime());
-
 module.exports = { addDays, getCurrentDateTime };
