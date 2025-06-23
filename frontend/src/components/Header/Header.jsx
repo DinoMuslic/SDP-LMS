@@ -35,8 +35,8 @@ const Header = () => {
                 </>
               ) : role === "librarian" ? (
                 <>
-                  <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  <Nav.Link href="/students">Students</Nav.Link>
+                  <Nav.Link href="/borrowings">Borrowings</Nav.Link>
                 </>
               ) : (
                 <>
