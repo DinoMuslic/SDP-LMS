@@ -1,10 +1,16 @@
 const db = require("./db");
 
-const addBorrowing = async (
-  student_id,
-  isbn,
-  return_date,
-) => {
+const getBorrowing = async (student_id, isbn) => {
+  try {
+    const rows = await db.query("SELECT * FROM borrowings where student_id = ? AND isbn = ? AND (returned_status = 'borrowed' OR returned_status = 'late')", [student_id, isbn]);
+    return rows[0];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+}
+
+const addBorrowing = async (student_id, isbn, return_date) => {
   try {
     await db.query(
       "INSERT INTO borrowings(student_id, isbn, return_date) VALUES(?, ?, ?)",
@@ -16,4 +22,16 @@ const addBorrowing = async (
   }
 };
 
-module.exports = { addBorrowing };
+const returnBook = async (student_id, isbn) => {
+  try {
+    await db.query(
+      "UPDATE borrowings SET returned_status = 'returned' , returned_date = NOW() WHERE student_id = ? AND isbn = ?",
+      [student_id, isbn]
+    );
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+};
+
+module.exports = { getBorrowing, addBorrowing, returnBook };
