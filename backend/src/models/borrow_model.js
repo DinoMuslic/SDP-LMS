@@ -20,6 +20,17 @@ const getBorrowingByStudent = async (student_id) => {
   }
 }
 
+const getBorrowingInfo= async () => {
+  try {
+    const rows = await db.query("SELECT CONCAT(u.first_name, ' ' , u.last_name) as full_name, b.name, bo.borrow_date, bo.return_date, bo.returned_status, bo.returned_date, bo.fine FROM users u JOIN borrowings bo ON u.id = bo.student_id JOIN books b ON b.isbn = bo.isbn");
+    return rows[0];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+}
+
+
 const addBorrowing = async (student_id, isbn, return_date) => {
   try {
     await db.query(
@@ -44,4 +55,4 @@ const returnBook = async (student_id, isbn) => {
   }
 };
 
-module.exports = { getBorrowing, getBorrowingByStudent, addBorrowing, returnBook };
+module.exports = { getBorrowing, getBorrowingByStudent, getBorrowingInfo, addBorrowing, returnBook };

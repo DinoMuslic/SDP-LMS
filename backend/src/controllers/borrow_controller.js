@@ -46,6 +46,16 @@ const addBorrowing = async (req, res) => {
   }
 };
 
+const borrowingInfo = async (req, res) => {
+  try {
+    const borrowings = await Borrow.getBorrowingInfo();
+    return res.status(201).json(borrowings);
+  } catch (error) {
+     console.error("Error getting borrowings ingo:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+ }
+
 const returnBook = async (req, res) => {
   try {
     const { student_id, isbn } = req.body;
@@ -78,4 +88,4 @@ const returnBook = async (req, res) => {
   }
 };
 
-module.exports = { addBorrowing, returnBook };
+module.exports = { addBorrowing, borrowingInfo, returnBook };
