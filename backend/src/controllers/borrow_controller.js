@@ -24,7 +24,7 @@ const addBorrowing = async (req, res) => {
     const newAmount = book[0].amount - 1;
     await Book.updateBookAmount(isbn, newAmount);
 
-    res.json({ message: "Successfully added borrowing" });
+    res.json({ message: `Book ${book[0]["name"]} borrowed to user ${user[0]["first_name"]} ${user[0]["last_name"]}` });
   } catch (error) {
     console.error("Error creating borrowing:", error);
     res.status(500).json({ error: "Server error" });
