@@ -31,10 +31,12 @@
 }
 
 .borrow-btn-container {
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
   right: 0;
-  margin: 0 10px 10px 0;
+  margin: 0 10px 10px 0; */
+  display: flex;
+  justify-content: space-between;
 }
 
 @media (max-width: 1241px) {

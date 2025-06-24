@@ -52,6 +52,28 @@ const BorrowForm = () => {
     setShowToast(true);
   };
 
+  const handleReturn = async () => {
+    setToastMessage("");
+    setShowToast(false);
+
+    if (studentId === "" || isbn === "") {
+      setShowToast(false);
+      setTimeout(() => {
+        setToastMessage("All fields are required");
+        setShowToast(true);
+      }, 50);
+      return;
+    }
+
+    const response = await BorrowService.return({
+      student_id: studentId,
+      isbn: isbn,
+    });
+
+    setToastMessage(response);
+    setShowToast(true);
+  };
+
   return (
     <>
       <div className="borrow-form-container">
@@ -78,6 +100,9 @@ const BorrowForm = () => {
           />
         </div>
         <div className="borrow-btn-container">
+          <button className="my-btn" onClick={handleReturn}>
+            Return Book
+          </button>
           <button className="my-btn" onClick={handleBorrow}>
             Borrow Book
           </button>
