@@ -22,7 +22,7 @@ const getBorrowingByStudent = async (student_id) => {
 
 const getBorrowingInfo= async () => {
   try {
-    const rows = await db.query("SELECT CONCAT(u.first_name, ' ' , u.last_name) as full_name, b.name, bo.borrow_date, bo.return_date, bo.returned_status, bo.returned_date, bo.fine FROM users u JOIN borrowings bo ON u.id = bo.student_id JOIN books b ON b.isbn = bo.isbn");
+    const rows = await db.query("SELECT u.id, CONCAT(u.first_name, ' ' , u.last_name) as full_name, b.isbn, b.name, bo.borrow_date, bo.return_date, bo.returned_status, bo.returned_date, bo.fine FROM users u JOIN borrowings bo ON u.id = bo.student_id JOIN books b ON b.isbn = bo.isbn WHERE bo.returned_status != 'returned'");
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
