@@ -2,7 +2,6 @@ const Borrow = require("../models/borrow_model");
 const Book = require("../models/book_model");
 const User = require("../models/user_model");
 const { addDays, getCurrentDateTime } = require("../utils/utils");
-const { json } = require("express");
 
 const addBorrowing = async (req, res) => {
   try {
@@ -27,6 +26,9 @@ const addBorrowing = async (req, res) => {
 
     const borrow = await Borrow.getBorrowing(student_id, isbn);
     if (borrow.length > 0) return res.status(500).json({ error: `${user[0]["first_name"]} ${user[0]["last_name"]} already has the book ${book[0]["name"]}` });
+
+    const bookAmount = await Borrow.getBorrowingByStudent(student_id);
+    if(bookAmount.length >= 3) return res.status(500).json({ error: `${user[0]["first_name"]} ${user[0]["last_name"]} has 3 books already borrowed` })
 
     const borrow_date = getCurrentDateTime();
     const return_date = addDays(borrow_date, 30);

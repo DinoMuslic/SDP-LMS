@@ -10,6 +10,16 @@ const getBorrowing = async (student_id, isbn) => {
   }
 }
 
+const getBorrowingByStudent = async (student_id) => {
+  try {
+    const rows = await db.query("SELECT * FROM borrowings where student_id = ? AND (returned_status = 'borrowed' OR returned_status = 'late')", [student_id]);
+    return rows[0];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+}
+
 const addBorrowing = async (student_id, isbn, return_date) => {
   try {
     await db.query(
@@ -34,4 +44,4 @@ const returnBook = async (student_id, isbn) => {
   }
 };
 
-module.exports = { getBorrowing, addBorrowing, returnBook };
+module.exports = { getBorrowing, getBorrowingByStudent, addBorrowing, returnBook };
