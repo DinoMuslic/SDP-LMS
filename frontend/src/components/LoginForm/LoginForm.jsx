@@ -39,7 +39,7 @@ const LoginForm = ({
         ? navigate("/home")
         : role === "admin"
         ? navigate("/dashboard")
-        : navigate("/librarian");
+        : navigate("/home");
     } catch (error) {
       setToastTitle("Error");
       setToastType("danger");
