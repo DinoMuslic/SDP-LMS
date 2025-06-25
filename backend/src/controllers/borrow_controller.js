@@ -25,10 +25,20 @@ const addBorrowing = async (req, res) => {
       return res.status(500).json({ error: "Book not available" });
 
     const borrow = await Borrow.getBorrowing(student_id, isbn);
-    if (borrow.length > 0) return res.status(500).json({ error: `${user[0]["first_name"]} ${user[0]["last_name"]} already has the book ${book[0]["name"]}` });
+    if (borrow.length > 0)
+      return res
+        .status(500)
+        .json({
+          error: `${user[0]["first_name"]} ${user[0]["last_name"]} already has the book ${book[0]["name"]}`,
+        });
 
     const bookAmount = await Borrow.getBorrowingByStudent(student_id);
-    if(bookAmount.length >= 3) return res.status(500).json({ error: `${user[0]["first_name"]} ${user[0]["last_name"]} has 3 books already borrowed` })
+    if (bookAmount.length >= 3)
+      return res
+        .status(500)
+        .json({
+          error: `${user[0]["first_name"]} ${user[0]["last_name"]} has 3 books already borrowed`,
+        });
 
     const borrow_date = getCurrentDateTime();
     const return_date = addDays(borrow_date, 30);
@@ -51,10 +61,19 @@ const borrowingInfo = async (req, res) => {
     const borrowings = await Borrow.getBorrowingInfo();
     return res.status(201).json(borrowings);
   } catch (error) {
-     console.error("Error getting borrowings ingo:", error);
+    console.error("Error getting borrowings ingo:", error);
     res.status(500).json({ error: "Server error" });
   }
- }
+};
+
+const updateLateBorrowings = async (req, res) => {
+  try {
+    await Borrow.updateLateBorrowings();
+    return res.status(201).json({ message: "Late borrowings updated." });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 const returnBook = async (req, res) => {
   try {
@@ -71,9 +90,14 @@ const returnBook = async (req, res) => {
       return res
         .status(404)
         .json({ error: `Book with isbn ${isbn} doesn't exist` });
-    
+
     const borrow = await Borrow.getBorrowing(student_id, isbn);
-    if (borrow.length === 0) return res.status(404).json({ error: ` ${user[0]["first_name"]} ${user[0]["last_name"]} didn't borrow the book ${book[0]["name"]}` })
+    if (borrow.length === 0)
+      return res
+        .status(404)
+        .json({
+          error: ` ${user[0]["first_name"]} ${user[0]["last_name"]} didn't borrow the book ${book[0]["name"]}`,
+        });
 
     await Borrow.returnBook(student_id, isbn);
     const newAmount = book[0].amount + 1;
@@ -88,4 +112,4 @@ const returnBook = async (req, res) => {
   }
 };
 
-module.exports = { addBorrowing, borrowingInfo, returnBook };
+module.exports = { addBorrowing, borrowingInfo, updateLateBorrowings, returnBook };

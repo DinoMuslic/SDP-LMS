@@ -2,23 +2,29 @@ const db = require("./db");
 
 const getBorrowing = async (student_id, isbn) => {
   try {
-    const rows = await db.query("SELECT * FROM borrowings where student_id = ? AND isbn = ? AND (returned_status = 'borrowed' OR returned_status = 'late')", [student_id, isbn]);
+    const rows = await db.query(
+      "SELECT * FROM borrowings where student_id = ? AND isbn = ? AND (returned_status = 'borrowed' OR returned_status = 'late')",
+      [student_id, isbn]
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
-}
+};
 
 const getBorrowingByStudent = async (student_id) => {
   try {
-    const rows = await db.query("SELECT * FROM borrowings where student_id = ? AND (returned_status = 'borrowed' OR returned_status = 'late')", [student_id]);
+    const rows = await db.query(
+      "SELECT * FROM borrowings where student_id = ? AND (returned_status = 'borrowed' OR returned_status = 'late')",
+      [student_id]
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
-}
+};
 
 const getBorrowingInfo= async () => {
   try {
@@ -30,6 +36,22 @@ const getBorrowingInfo= async () => {
   }
 }
 
+const updateLateBorrowings = async () => {
+  try {
+    await db.query(`
+      UPDATE borrowings
+      SET 
+        returned_status = 'late',
+        fine = DATEDIFF(NOW(), return_date) * 0.3
+      WHERE 
+        returned_status = 'borrowed'
+        AND return_date < NOW()
+    `);
+  } catch (error) {
+    console.error("Error updating late borrowings:", error);
+    throw error;
+  }
+};
 
 const addBorrowing = async (student_id, isbn, return_date) => {
   try {
@@ -55,4 +77,11 @@ const returnBook = async (student_id, isbn) => {
   }
 };
 
-module.exports = { getBorrowing, getBorrowingByStudent, getBorrowingInfo, addBorrowing, returnBook };
+module.exports = {
+  getBorrowing,
+  getBorrowingByStudent,
+  getBorrowingInfo,
+  updateLateBorrowings,
+  addBorrowing,
+  returnBook,
+};

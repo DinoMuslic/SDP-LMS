@@ -25,6 +25,18 @@ const BorrowService = {
     }
   },
 
+  updateLateBorrowings: async (data) => {
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/borrowings/update-late`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  },
+
   return: async (data) => {
     try {
       const response = await axios.post(
