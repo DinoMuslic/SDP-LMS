@@ -3,7 +3,7 @@ import BorrowService from "@services/borrow_service";
 import MyToast from "@components/Toast/Toast";
 import "./BorrowForm.css";
 
-const BorrowForm = () => {
+const BorrowForm = ({ onDataChange }) => {
   const [studentId, setStudentId] = useState("");
   const [isbn, setIsbn] = useState("");
   const [date, setDate] = useState(null);
@@ -50,6 +50,12 @@ const BorrowForm = () => {
 
     setToastMessage(response);
     setShowToast(true);
+
+    setStudentId("");
+    setIsbn("");
+    if (onDataChange) {
+      onDataChange();
+    }
   };
 
   const handleReturn = async () => {
@@ -72,6 +78,12 @@ const BorrowForm = () => {
 
     setToastMessage(response);
     setShowToast(true);
+
+    setStudentId("");
+    setIsbn("");
+    if (onDataChange) {
+      onDataChange();
+    }
   };
 
   return (
