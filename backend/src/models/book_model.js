@@ -71,9 +71,9 @@ const updateBookAmount = async (isbn, amount) => {
   }
 };
 
-const deleteBook = async (id) => {
+const deleteBook = async (isbn) => {
   try {
-    await db.query("DELETE FROM books WHERE id = ?", [id]);
+    await db.query("DELETE FROM books WHERE isbn = ?", [isbn]);
   } catch (error) {
     console.log("Database error:", error);
   }
