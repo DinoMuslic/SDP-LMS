@@ -59,7 +59,6 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
       { name: "Role", selector: row => row.role, sortable: true },
     ],
     books: [
-      { name: "ID", selector: row => row.id, sortable: true },
       { name: "ISBN", selector: row => row.isbn, sortable: true },
       { name: "Title", selector: row => row.name, sortable: true },
       { name: "Genre", selector: row => row.genre, sortable: true },
@@ -125,7 +124,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
         await AuthorService.delete(selectedRow.id);
       }
       else if (type === "books") {
-        await BookService.delete(selectedRow.id);
+        await BookService.delete(selectedRow.isbn);
       }
       onDataChange();
     } catch (err) {
