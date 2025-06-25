@@ -118,9 +118,22 @@ const returnBook = async (req, res) => {
   }
 };
 
+const calculateFines = async (req, res) => {
+  try {
+    const student_id = req.params.id;
+    const fines = await Borrow.calculateFines(student_id);
+    
+    return res.json({ fines: fines[0]["total_fines"] });
+  } catch (error) {
+    console.error("Error calculating fines:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   addBorrowing,
   borrowingInfo,
   updateLateBorrowings,
   returnBook,
+  calculateFines
 };

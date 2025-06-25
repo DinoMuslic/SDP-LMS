@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
+import BorrowService from "@services/borrow_service";
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
+  const [fines, setFines] = useState(0);
+
+  useEffect(() => {
+    const fetchFines = async () => {
+      const fetchedFines = await BorrowService.calculateStudentFines(localStorage.getItem("id"));
+      setFines(fetchedFines);
+    };
+    fetchFines();
+  }, []);
+
   return (
     <div className="profile-center-container">
       <div className="profile-container">
@@ -32,7 +44,7 @@ const ProfilePage = () => {
           </div>
           <div className="right-side">
             <div className="h3 mb-4">Total Fines</div>
-            <div className="h4 fine">0 KM</div>
+            <div className="h4 fine">{fines || 0} KM</div>
           </div>
           <div></div> <div></div>
         </div>
