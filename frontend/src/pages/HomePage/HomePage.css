@@ -1,0 +1,5 @@
+.book-availability-input {
+    padding: 8px;
+    border: 1px solid var(--green);
+    border-radius: 8px;
+}
