@@ -30,8 +30,11 @@ const LoginForm = ({
         }
       );
 
-      const { token, role } = response.data.user;
+      const { id, first_name, last_name, mail, token, role } = response.data.user;
 
+      localStorage.setItem("id", id);
+      localStorage.setItem("full_name", first_name + " " + last_name);
+      localStorage.setItem("email", mail);
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
