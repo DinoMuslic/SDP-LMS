@@ -8,15 +8,14 @@ import DeleteModal from "@components/DeleteModal/DeleteModal";
 import UserService from "@services/user_service";
 import AuthorService from "@services/author_service";
 import BookService from "@services/book_service";
+import PublisherService from "@services/publisher_service";
 
 import "./Datatable.css";
 
 const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
-  
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  
   const customStyles = {
     table: {
       style: { borderRadius: "15px" },
@@ -49,36 +48,54 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
     },
   };
 
-  
   const columnsMap = {
     users: [
-      { name: "ID", selector: row => row.id, sortable: true },
-      { name: "First Name", selector: row => row.first_name, sortable: true },
-      { name: "Last Name", selector: row => row.last_name, sortable: true },
-      { name: "Email", selector: row => row.email, sortable: true },
-      { name: "Role", selector: row => row.role, sortable: true },
+      { name: "ID", selector: (row) => row.id, sortable: true },
+      { name: "First Name", selector: (row) => row.first_name, sortable: true },
+      { name: "Last Name", selector: (row) => row.last_name, sortable: true },
+      { name: "Email", selector: (row) => row.email, sortable: true },
+      { name: "Role", selector: (row) => row.role, sortable: true },
     ],
     books: [
-      { name: "ISBN", selector: row => row.isbn, sortable: true },
-      { name: "Title", selector: row => row.name, sortable: true },
-      { name: "Genre", selector: row => row.genre, sortable: true },
-      { name: "Publication Year", selector: row => row.year_of_publication, sortable: true },
-      { name: "Publisher ID", selector: row => row.publisher_id, sortable: true },
-      { name: "Author ID", selector: row => row.author_id, sortable: true },
+      { name: "ISBN", selector: (row) => row.isbn, sortable: true },
+      { name: "Title", selector: (row) => row.name, sortable: true },
+      { name: "Genre", selector: (row) => row.genre, sortable: true },
+      {
+        name: "Publication Year",
+        selector: (row) => row.year_of_publication,
+        sortable: true,
+      },
+      {
+        name: "Publisher ID",
+        selector: (row) => row.publisher_id,
+        sortable: true,
+      },
+      { name: "Author ID", selector: (row) => row.author_id, sortable: true },
     ],
     authors: [
-      { name: "ID", selector: row => row.id, sortable: true },
-      { name: "First Name", selector: row => row.first_name, sortable: true },
-      { name: "Last Name", selector: row => row.last_name, sortable: true },
-      { name: "Year of Birth", selector: row => row.year_of_birth, sortable: true },
-      { name: "Year of Death", selector: row => row.year_of_death, sortable: true },
+      { name: "ID", selector: (row) => row.id, sortable: true },
+      { name: "First Name", selector: (row) => row.first_name, sortable: true },
+      { name: "Last Name", selector: (row) => row.last_name, sortable: true },
+      {
+        name: "Year of Birth",
+        selector: (row) => row.year_of_birth,
+        sortable: true,
+      },
+      {
+        name: "Year of Death",
+        selector: (row) => row.year_of_death,
+        sortable: true,
+      },
+    ],
+    publishers: [
+      { name: "ID", selector: (row) => row.id, sortable: true },
+      { name: "Publisher Name", selector: (row) => row.name, sortable: true },
     ],
   };
 
-
   const actionColumn = {
     name: "Actions",
-    cell: row => (
+    cell: (row) => (
       <div>
         <FaEdit
           className="data-table-icon ms-1 me-3"
@@ -102,19 +119,17 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
 
   const columns = [...(columnsMap[type] || []), actionColumn];
 
- 
   const [filterText, setFilterText] = useState("");
   const [resetPagination, setResetPagination] = useState(false);
-  const handleFilter = e => {
+  const handleFilter = (e) => {
     setFilterText(e.target.value);
     setResetPagination(!resetPagination);
   };
-  const filteredData = data.filter(item =>
-    Object.values(item).some(value =>
+  const filteredData = data.filter((item) =>
+    Object.values(item).some((value) =>
       String(value).toLowerCase().includes(filterText.toLowerCase())
     )
   );
-
 
   const handleDelete = async () => {
     try {
@@ -122,9 +137,10 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
         await UserService.delete(selectedRow.id);
       } else if (type === "authors") {
         await AuthorService.delete(selectedRow.id);
-      }
-      else if (type === "books") {
+      } else if (type === "books") {
         await BookService.delete(selectedRow.isbn);
+      } else if (type === "publishers") {
+        await PublisherService.delete(selectedRow.id);
       }
       onDataChange();
     } catch (err) {
@@ -140,11 +156,12 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
         <Form.Select
           className="datatable-select"
           value={type}
-          onChange={e => setType(e.target.value)}
+          onChange={(e) => setType(e.target.value)}
         >
           <option value="users">Users</option>
           <option value="books">Books</option>
           <option value="authors">Authors</option>
+          <option value="publishers">Publishers</option>
         </Form.Select>
 
         <input
@@ -175,7 +192,13 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onDelete={handleDelete}
-        entity={selectedRow ? `${type.slice(0, -1)} ${selectedRow.id}` : ""}
+        entity={
+          selectedRow
+            ? `${type.slice(0, -1)} ${
+                type === "books" ? selectedRow.isbn : selectedRow.id
+              }` // ✅ Fixed: use isbn for books, id for others
+            : ""
+        }
       />
     </>
   );

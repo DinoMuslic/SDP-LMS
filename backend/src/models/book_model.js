@@ -49,10 +49,11 @@ const updateBook = async ({
   author_id,
 }) => {
   try {
-    await db.query(
+    const result = await db.query(
       "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ? WHERE isbn = ?",
-      [isbn, name, genre, year_of_publication, publisher_id, author_id]
+      [name, genre, year_of_publication, publisher_id, author_id, isbn]
     );
+    return result;
   } catch (error) {
     console.log("Database error:", error);
     throw error;
@@ -122,5 +123,5 @@ module.exports = {
   deleteBook,
   getAllBooksInfo,
   checkAvailability,
-  getTopBorrowedBooks
+  getTopBorrowedBooks,
 };
