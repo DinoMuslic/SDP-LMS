@@ -42,6 +42,14 @@ const BookService = {
       console.log("Error geting books");
     }
   },
+  getTopBorrowed: async() => {
+    try {
+      const response = await axios.get(`${URL}/books/top-borrowed`);
+      return response.data;
+    } catch (error) {
+      console.log("Error geting top borrowed books");
+    }
+  },
   isAvailable: async title => {
     try {
       const response = await axios.get(`${URL}/books/is-available/${title}`);
