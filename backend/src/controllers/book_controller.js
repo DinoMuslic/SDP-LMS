@@ -22,6 +22,16 @@ const getBook = async (req, res) => {
   }
 };
 
+const getTopBorrowedBooks = async (req, res) => {
+  try {
+    const books = await Book.getTopBorrowedBooks();
+    res.json(books);
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const addBook = async (req, res) => {
   try {
     const { isbn, name, genre, year_of_publication, publisher_id, author_id } = req.body;
@@ -77,4 +87,4 @@ const checkAvailability = async(req, res) => {
   }
 }
 
-module.exports = { getBooks, getBook, addBook, updateBook, deleteBook, getBooksInfo, checkAvailability };
+module.exports = { getBooks, getBook, getTopBorrowedBooks, addBook, updateBook, deleteBook, getBooksInfo, checkAvailability };

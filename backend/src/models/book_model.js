@@ -102,6 +102,17 @@ const checkAvailability = async (bookName) => {
   }
 };
 
+const getTopBorrowedBooks = async () => {
+  try {
+    const rows = await db.query(
+      "SELECT b.isbn, b.name, COUNT(bo.isbn) AS borrow_count FROM books b JOIN borrowings bo ON b.isbn = bo.isbn GROUP BY b.isbn, b.name ORDER BY borrow_count DESC LIMIT 3"
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error);
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookByIsbn,
@@ -111,4 +122,5 @@ module.exports = {
   deleteBook,
   getAllBooksInfo,
   checkAvailability,
+  getTopBorrowedBooks
 };
