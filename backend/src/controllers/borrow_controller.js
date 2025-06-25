@@ -19,6 +19,14 @@ const addBorrowing = async (req, res) => {
         .status(404)
         .json({ error: `Book with isbn ${isbn} doesn't exist` });
 
+    const fines = await Borrow.calculateFines(student_id);
+    const total_fines = fines[0]["total_fines"];
+
+    if (total_fines > 0)
+      return res.status(403).json({
+        error: `Can't borrow book as student owes ${total_fines} KM in fines.`,
+      });
+
     const isAvailable = await Book.checkAvailability(book[0].name);
 
     if (isAvailable[0].amount == 0)
@@ -26,19 +34,15 @@ const addBorrowing = async (req, res) => {
 
     const borrow = await Borrow.getBorrowing(student_id, isbn);
     if (borrow.length > 0)
-      return res
-        .status(500)
-        .json({
-          error: `${user[0]["first_name"]} ${user[0]["last_name"]} already has the book ${book[0]["name"]}`,
-        });
+      return res.status(500).json({
+        error: `${user[0]["first_name"]} ${user[0]["last_name"]} already has the book ${book[0]["name"]}`,
+      });
 
     const bookAmount = await Borrow.getBorrowingByStudent(student_id);
     if (bookAmount.length >= 3)
-      return res
-        .status(500)
-        .json({
-          error: `${user[0]["first_name"]} ${user[0]["last_name"]} has 3 books already borrowed`,
-        });
+      return res.status(500).json({
+        error: `${user[0]["first_name"]} ${user[0]["last_name"]} has 3 books already borrowed`,
+      });
 
     const borrow_date = getCurrentDateTime();
     const return_date = addDays(borrow_date, 30);
@@ -93,18 +97,20 @@ const returnBook = async (req, res) => {
 
     const borrow = await Borrow.getBorrowing(student_id, isbn);
     if (borrow.length === 0)
-      return res
-        .status(404)
-        .json({
-          error: ` ${user[0]["first_name"]} ${user[0]["last_name"]} didn't borrow the book ${book[0]["name"]}`,
-        });
+      return res.status(404).json({
+        error: ` ${user[0]["first_name"]} ${user[0]["last_name"]} didn't borrow the book ${book[0]["name"]}`,
+      });
 
     await Borrow.returnBook(student_id, isbn);
     const newAmount = book[0].amount + 1;
     await Book.updateBookAmount(isbn, newAmount);
 
+    const fines = await Borrow.calculateFines(student_id);
+    const total_fines = fines[0]["total_fines"] || 0;
+    console.log(fines[0]);
+
     return res.status(201).json({
-      message: `Book ${book[0]["name"]} returned by user ${user[0]["first_name"]} ${user[0]["last_name"]}`,
+      message: `Book ${book[0]["name"]} returned by user ${user[0]["first_name"]} ${user[0]["last_name"]}, fines - ${total_fines} KM`,
     });
   } catch (error) {
     console.error("Error returning book:", error);
@@ -112,4 +118,9 @@ const returnBook = async (req, res) => {
   }
 };
 
-module.exports = { addBorrowing, borrowingInfo, updateLateBorrowings, returnBook };
+module.exports = {
+  addBorrowing,
+  borrowingInfo,
+  updateLateBorrowings,
+  returnBook,
+};
