@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import BorrowForm from "@components/BorrowForm/BorrowForm";
 import Datatable from "@components/Datatable/MyDatatable";
 import BorrowService from "@services/borrow_service";
+import { useNavigate } from "react-router-dom";
 
 const BorrowingsPage = () => {
+  if (localStorage.getItem("role") !== "librarian") {
+    const navigate = useNavigate();
+    navigate("/home");
+  }
+
   const [data, setData] = useState([]);
 
   const fetchData = async () => {

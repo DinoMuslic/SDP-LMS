@@ -6,7 +6,7 @@ const useAuthRedirect = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const publicPaths = ["/home", "/login", "/register"];
+    const publicPaths = ["/home", "/login", "/register", "/profile", "/books"];
     const token = localStorage.getItem("token");
 
     if (!token && !publicPaths.includes(location.pathname)) {
