@@ -54,7 +54,6 @@ const BorrowService = {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/borrowings/calculate-fines/${id}`
       );
-      console.log(response.data.fines);
       return response.data.fines;
     } catch (error) {
       return error.response.data.error;
