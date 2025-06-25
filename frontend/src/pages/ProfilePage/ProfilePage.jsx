@@ -6,8 +6,8 @@ const ProfilePage = () => {
       <div className="profile-container">
         <div className="text-center c-green h1">User Profile</div>
         <hr /> <br />
-        <div className="h3 mb-4">Full Name: ${}</div>
-        <div className="h3">Email: ${}</div>
+        <div className="h3 mb-4">Full Name: {localStorage.getItem("full_name")}</div>
+        <div className="h3">Email: {localStorage.getItem("email")}</div>
         <br />
         <hr />
         <br />
