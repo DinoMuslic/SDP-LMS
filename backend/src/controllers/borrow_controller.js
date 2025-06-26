@@ -110,7 +110,7 @@ const returnBook = async (req, res) => {
     console.log(fines[0]);
 
     return res.status(201).json({
-      message: `Book ${book[0]["name"]} returned by user ${user[0]["first_name"]} ${user[0]["last_name"]}, fines - ${total_fines} KM`,
+      message: `Book ${book[0]["name"]} returned by user ${user[0]["first_name"]} ${user[0]["last_name"]}`,
     });
   } catch (error) {
     console.error("Error returning book:", error);
