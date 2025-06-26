@@ -44,7 +44,7 @@ const updateLateBorrowings = async () => {
         returned_status = 'late',
         fine = DATEDIFF(NOW(), return_date) * 0.3
       WHERE 
-        returned_status = 'borrowed'
+        returned_status != 'returned'
         AND return_date < NOW()
     `);
   } catch (error) {
