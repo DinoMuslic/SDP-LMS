@@ -11,6 +11,7 @@ const BorrowingsPage = () => {
   }
 
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchData = async () => {
     await BorrowService.updateLateBorrowings();
@@ -22,13 +23,30 @@ const BorrowingsPage = () => {
     fetchData();
   }, []);
 
+  const filteredData = data.filter((item) =>
+    Object.values(item).some((val) =>
+      String(val).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
   return (
     <div className="p-5">
       <div className="w-100 text-center h1 c-green">Book Borrowing</div>
       <div className="my-center-container">
         <BorrowForm onDataChange={fetchData} />
       </div>
-      <Datatable columns={columns} data={data} rowsPerPage={10} />
+
+      <div className="w-25">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search borrowings..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <Datatable columns={columns} data={filteredData} rowsPerPage={10} />
     </div>
   );
 };
