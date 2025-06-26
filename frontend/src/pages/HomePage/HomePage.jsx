@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyToast from "@components/Toast/Toast";
+import BookCard from "@components/BookCard/BookCard";
 import BookService from "@services/book_service";
 
 import "./HomePage.css";
@@ -8,6 +9,15 @@ const HomePage = () => {
   const [title, setTitle] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const fetchedBooks = await BookService.getTopBorrowed();
+      setBooks(fetchedBooks);
+    };
+    fetchBooks();
+  }, []);
 
   const handleBtnClick = async () => {
     setShowToast(false);
@@ -18,7 +28,15 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="my-center-container">
+      <div className="container">
+        <div className="h2 c-green text-center mt-4">Top borrowed Books</div>
+        <div className="row g-4">
+          {books.map((book, index) => (
+            <div className="col-12 col-lg-4 mb-4" key={index}>
+              <BookCard {...book} />
+            </div>
+          ))}
+        </div>
         <div className="h2 c-green">
           Check if the Book you want to read is available
         </div>
@@ -36,7 +54,7 @@ const HomePage = () => {
           </button>
         </div>
         {showToast ? <MyToast message={toastMessage} type="info" /> : null}
-      </div>
+      </div>  
     </>
   );
 };

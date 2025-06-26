@@ -105,12 +105,28 @@ const checkAvailability = async (bookName) => {
 
 const getTopBorrowedBooks = async () => {
   try {
-    const rows = await db.query(
-      "SELECT b.isbn, b.name, COUNT(bo.isbn) AS borrow_count FROM books b JOIN borrowings bo ON b.isbn = bo.isbn GROUP BY b.isbn, b.name ORDER BY borrow_count DESC LIMIT 3"
-    );
+    const rows = await db.query(`
+      SELECT b.name AS title,
+        b.genre,
+        b.year_of_publication AS yob,
+        b.image,
+        b.description,
+        b.amount,
+        CONCAT(a.first_name, ' ', a.last_name) AS author,
+        p.name AS publisher,
+        COUNT(bo.isbn) AS borrow_count
+      FROM books b
+      JOIN borrowings bo ON b.isbn = bo.isbn
+      JOIN authors a ON b.author_id = a.id
+      JOIN publishers p ON b.publisher_id = p.id
+      GROUP BY b.isbn
+      ORDER BY borrow_count DESC
+      LIMIT 3
+    `);
     return rows[0];
   } catch (error) {
     console.log("Database error:", error);
+    throw error;
   }
 };
 
