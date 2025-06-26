@@ -58,7 +58,18 @@ const BorrowService = {
     } catch (error) {
       return error.response.data.error;
     }
-  }
+  },
+
+  calculateAllFines: async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/borrowings/total-fines/`
+      );
+      return response.data.fines;
+    } catch (error) {
+      return error.response.data.error;
+    }
+  },
 };
 
 export default BorrowService;

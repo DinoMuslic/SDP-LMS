@@ -39,7 +39,7 @@
   justify-content: space-between;
 }
 
-@media (max-width: 1241px) {
+@media (max-width: 1762px) {
   .borrow-form-container {
     width: 90%;
     height: auto;

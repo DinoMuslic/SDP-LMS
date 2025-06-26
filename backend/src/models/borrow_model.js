@@ -87,6 +87,16 @@ const calculateFines = async (student_id) => {
   }
 }
 
+const calculateAllFines = async () => {
+  try {
+    const rows = await db.query("SELECT SUM(fine) as total_fines FROM borrowings WHERE returned_status != 'returned'");
+    return rows[0];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getBorrowing,
   getBorrowingByStudent,
@@ -94,5 +104,6 @@ module.exports = {
   updateLateBorrowings,
   addBorrowing,
   returnBook,
-  calculateFines
+  calculateFines,
+  calculateAllFines
 };

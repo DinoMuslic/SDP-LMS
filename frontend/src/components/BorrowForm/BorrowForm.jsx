@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import BorrowService from "@services/borrow_service";
 import MyToast from "@components/Toast/Toast";
+import BorrowService from "@services/borrow_service";
 import "./BorrowForm.css";
 
 const BorrowForm = ({ onDataChange }) => {
@@ -86,6 +86,21 @@ const BorrowForm = ({ onDataChange }) => {
     }
   };
 
+  const handleStudentFine = async () => {
+    setToastMessage("");
+    setShowToast(false);
+
+    const response =
+      studentId !== "" && studentId !== null
+        ? await BorrowService.calculateStudentFines(studentId)
+        : await BorrowService.calculateAllFines();
+
+    if (response) {
+      setToastMessage(response);
+      setShowToast(true);
+    }
+  };
+
   return (
     <>
       <div className="borrow-form-container">
@@ -100,6 +115,10 @@ const BorrowForm = ({ onDataChange }) => {
             value={studentId}
             onChange={handleStudentInput}
           />
+          <button className="my-btn" onClick={handleStudentFine}>
+            Check Fines
+          </button>
+          <p style={{fontSize: 14}}>To check total fines for all students leave the Student ID field empty</p>
         </div>
         <div className="text-input-container">
           <div className="borrow-form-text">Book ISBN</div>

@@ -121,9 +121,30 @@ const returnBook = async (req, res) => {
 const calculateFines = async (req, res) => {
   try {
     const student_id = req.params.id;
-    const fines = await Borrow.calculateFines(student_id);
+
+    const user = await User.getUserById(student_id);
+    if (user.length === 0)
+      return res
+        .status(404)
+        .json({ error: `Student with id ${student_id} doesn't exist` });
     
-    return res.json({ fines: fines[0]["total_fines"] });
+    const fines = await Borrow.calculateFines(student_id);
+
+    if(fines[0]["total_fines"] === null)
+      fines[0]["total_fines"] = 0;
+    
+    return res.json({ fines: `Student ${user[0]["first_name"]} ${user[0]["last_name"]} owes ${fines[0]["total_fines"]} KM`  });
+  } catch (error) {
+    console.error("Error calculating fines:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const calculateAllFines = async (req, res) => {
+  try {
+    const fines = await Borrow.calculateAllFines();
+    
+    return res.json({ fines: `Total fines: ${fines[0]["total_fines"]} KM` });
   } catch (error) {
     console.error("Error calculating fines:", error);
     res.status(500).json({ error: "Server error" });
@@ -135,5 +156,6 @@ module.exports = {
   borrowingInfo,
   updateLateBorrowings,
   returnBook,
-  calculateFines
+  calculateFines,
+  calculateAllFines
 };
