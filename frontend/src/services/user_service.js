@@ -42,6 +42,17 @@ const UserService = {
       console.log("Error getting student info");
     }
   },
+  changePassword: async (data) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/change-password/`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting student info");
+    }
+  }
 };
 
 export default UserService;

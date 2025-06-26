@@ -52,7 +52,7 @@ const addUser = async (first_name, last_name, email, password, role) => {
       "INSERT INTO users (first_name, last_name, email, password, role) VALUES(?, ?, ?, ?, ?)",
       [first_name, last_name, email, hashedPassword, role]
     );
-    return { message: "User added sucessfully" }
+    return { message: "User added sucessfully" };
   } catch (error) {
     console.log("Database error:", error);
     throw error;
@@ -107,12 +107,22 @@ const deleteUser = async (id) => {
 const getUsersInfo = async () => {
   try {
     const rows = await db.query(
-        "SELECT u.id, u.first_name, u.last_name, u.email, b.borrow_date, b.return_date, b.returned_status FROM users u JOIN borrowings b on u.id = b.student_id"
+      "SELECT u.id, u.first_name, u.last_name, u.email, b.borrow_date, b.return_date, b.returned_status FROM users u JOIN borrowings b on u.id = b.student_id"
     );
 
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
+    throw error;
+  }
+};
+
+const changePassword = async (id, password) => {
+  try {
+    await db.query("UPDATE users SET password = ? WHERE id = id", [password, id]);
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
   }
 };
 
@@ -124,5 +134,6 @@ module.exports = {
   addUser,
   updateUser,
   deleteUser,
-  getUsersInfo
+  getUsersInfo,
+  changePassword
 };
