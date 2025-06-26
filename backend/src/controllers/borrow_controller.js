@@ -105,10 +105,6 @@ const returnBook = async (req, res) => {
     const newAmount = book[0].amount + 1;
     await Book.updateBookAmount(isbn, newAmount);
 
-    const fines = await Borrow.calculateFines(student_id);
-    const total_fines = fines[0]["total_fines"] || 0;
-    console.log(fines[0]);
-
     return res.status(201).json({
       message: `Book ${book[0]["name"]} returned by user ${user[0]["first_name"]} ${user[0]["last_name"]}`,
     });
@@ -143,6 +139,9 @@ const calculateFines = async (req, res) => {
 const calculateAllFines = async (req, res) => {
   try {
     const fines = await Borrow.calculateAllFines();
+
+    if(fines[0]["total_fines"] === null)
+      fines[0]["total_fines"] = 0;
     
     return res.json({ fines: `Total fines: ${fines[0]["total_fines"]} KM` });
   } catch (error) {
