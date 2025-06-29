@@ -196,7 +196,7 @@ const Datatable = ({ data, type, setType, onRowAction, onDataChange }) => {
           selectedRow
             ? `${type.slice(0, -1)} ${
                 type === "books" ? selectedRow.isbn : selectedRow.id
-              }` // ✅ Fixed: use isbn for books, id for others
+              }`
             : ""
         }
       />
