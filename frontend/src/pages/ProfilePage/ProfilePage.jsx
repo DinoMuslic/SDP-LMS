@@ -13,7 +13,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchFines = async () => {
-      const fetchedFines = await BorrowService.calculateStudentFines(
+      const fetchedFines = await BorrowService.calculateStudentFinesProfile(
         localStorage.getItem("id")
       );
       setFines(fetchedFines);
@@ -99,7 +99,7 @@ const ProfilePage = () => {
           </div>
           <div className="right-side">
             <div className="h3 mb-4">Total Fines</div>
-            <div className="h4 fine">{fines || 0} KM</div>
+            <div className="h4 fine">{fines || 0}</div>
           </div>
           <div></div> <div></div>
         </div>

@@ -136,6 +136,28 @@ const calculateFines = async (req, res) => {
   }
 };
 
+const calculateFinesProfile = async (req, res) => {
+  try {
+    const student_id = req.params.id;
+
+    const user = await User.getUserById(student_id);
+    if (user.length === 0)
+      return res
+        .status(404)
+        .json({ error: `Student with id ${student_id} doesn't exist` });
+    
+    const fines = await Borrow.calculateFines(student_id);
+
+    if(fines[0]["total_fines"] === null)
+      fines[0]["total_fines"] = 0;
+    
+    return res.json({ fines: `You owe ${fines[0]["total_fines"]} KM`  });
+  } catch (error) {
+    console.error("Error calculating fines:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const calculateAllFines = async (req, res) => {
   try {
     const fines = await Borrow.calculateAllFines();
@@ -156,5 +178,6 @@ module.exports = {
   updateLateBorrowings,
   returnBook,
   calculateFines,
-  calculateAllFines
+  calculateAllFines,
+  calculateFinesProfile
 };

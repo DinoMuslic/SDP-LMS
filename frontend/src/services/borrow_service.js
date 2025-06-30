@@ -60,6 +60,17 @@ const BorrowService = {
     }
   },
 
+  calculateStudentFinesProfile: async (id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/borrowings/calculate-fines-profile/${id}`
+      );
+      return response.data.fines;
+    } catch (error) {
+      return error.response.data.error;
+    }
+  },
+
   calculateAllFines: async () => {
     try {
       const response = await axios.get(
