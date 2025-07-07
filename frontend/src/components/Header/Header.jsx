@@ -31,6 +31,7 @@ const Header = () => {
               ) : role === "admin" ? (
                 <>
                   <Nav.Link href="/home">Home</Nav.Link>
+                  <Nav.Link href="/books">Books</Nav.Link>
                   <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 </>
               ) : role === "librarian" ? (

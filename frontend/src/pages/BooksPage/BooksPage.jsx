@@ -5,6 +5,8 @@ import BookService from "../../services/book_service";
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 6;
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -20,6 +22,11 @@ const BooksPage = () => {
     book.genre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+
   return (
     <div className="container mt-4">
       <div className="mb-4">
@@ -28,13 +35,16 @@ const BooksPage = () => {
           className="form-control"
           placeholder="Search by title, author, or genre..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
         />
       </div>
 
       <div className="row g-4">
-        {filteredBooks.length > 0 ? (
-          filteredBooks.map((book, index) => (
+        {currentBooks.length > 0 ? (
+          currentBooks.map((book, index) => (
             <div className="col-12 col-lg-4 mb-4" key={index}>
               <BookCard {...book} />
             </div>
@@ -43,6 +53,28 @@ const BooksPage = () => {
           <div className="text-center text-muted">No books found.</div>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center mt-4">
+          <nav>
+            <ul className="pagination">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+                <li
+                  key={num}
+                  className={`page-item ${currentPage === num ? "active" : ""}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => setCurrentPage(num)}
+                  >
+                    {num}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };

@@ -26,12 +26,14 @@ const addBook = async (
   genre,
   year_of_publication,
   publisher_id,
-  author_id
+  author_id,
+  image,
+  amount
 ) => {
   try {
     await db.query(
-      "INSERT INTO books (isbn, name, genre, year_of_publication, publisher_id, author_id) VALUES (?, ?, ?, ?, ?, ?)",
-      [isbn, name, genre, year_of_publication, publisher_id, author_id]
+      "INSERT INTO books (isbn, name, genre, year_of_publication, publisher_id, author_id, image, amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [isbn, name, genre, year_of_publication, publisher_id, author_id, image, amount]
     );
     return { message: "Book added sucessfully" };
   } catch (error) {
@@ -47,13 +49,19 @@ const updateBook = async ({
   year_of_publication,
   publisher_id,
   author_id,
+  image,
+  amount
 }) => {
   try {
-    const result = await db.query(
-      "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ? WHERE isbn = ?",
-      [name, genre, year_of_publication, publisher_id, author_id, isbn]
-    );
-    return result;
+    const sql = image
+      ? "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ?, image = ?, amount = ? WHERE isbn = ?"
+      : "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ?, amount = ? WHERE isbn = ?";
+
+    const params = image
+      ? [name, genre, year_of_publication, publisher_id, author_id, image, amount, isbn]
+      : [name, genre, year_of_publication, publisher_id, author_id, amount, isbn];
+
+    return await db.query(sql, params);
   } catch (error) {
     console.log("Database error:", error);
     throw error;
@@ -83,7 +91,7 @@ const deleteBook = async (isbn) => {
 const getAllBooksInfo = async () => {
   try {
     const rows = await db.query(
-      "SELECT b.name as title, b.genre, b.year_of_publication as yob, b.image, b.description, b.amount , CONCAT(a.first_name, ' ', a.last_name) as author, p.name as publisher FROM books b JOIN authors a ON b.author_id = a.id JOIN publishers p ON b.publisher_id = p.id"
+      "SELECT b.isbn, b.name as title, b.genre, b.year_of_publication as yob, b.image, b.description, b.amount , CONCAT(a.first_name, ' ', a.last_name) as author, p.name as publisher FROM books b JOIN authors a ON b.author_id = a.id JOIN publishers p ON b.publisher_id = p.id"
     );
     return rows[0];
   } catch (error) {

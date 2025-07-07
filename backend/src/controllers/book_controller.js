@@ -34,15 +34,20 @@ const getTopBorrowedBooks = async (req, res) => {
 
 const addBook = async (req, res) => {
   try {
-    const { isbn, name, genre, year_of_publication, publisher_id, author_id } =
+    const { isbn, name, genre, year_of_publication, publisher_id, author_id, amount } =
       req.body;
+
+    const image = req.file?.buffer || null;
+
     const result = await Book.addBook(
       isbn,
       name,
       genre,
       year_of_publication,
       publisher_id,
-      author_id
+      author_id,
+      image,
+      amount
     );
     res.status(201).json(result);
   } catch (error) {
@@ -53,9 +58,11 @@ const addBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
   try {
+    const image = req.file?.buffer || null;
     const result = await Book.updateBook({
-      isbn: req.params.id, 
+      isbn: req.params.id,
       ...req.body,
+      image,
     });
 
     if (!result || result.affectedRows === 0) {
@@ -103,6 +110,25 @@ const checkAvailability = async (req, res) => {
   }
 };
 
+const getBookImage = async (req, res) => {
+  try {
+    const isbn = req.params.isbn;
+    const result = await Book.getBookByIsbn(isbn);
+
+    if (!result || result.length === 0 || !result[0].image) {
+      return res.status(404).send("Image not found");
+    }
+
+    const img = result[0].image;
+
+    res.set("Content-Type", "image/png");
+    res.send(img);
+  } catch (err) {
+    console.error("Error fetching image:", err);
+    res.status(500).send("Server error");
+  }
+};
+
 module.exports = {
   getBooks,
   getBook,
@@ -112,4 +138,5 @@ module.exports = {
   deleteBook,
   getBooksInfo,
   checkAvailability,
+  getBookImage,
 };
