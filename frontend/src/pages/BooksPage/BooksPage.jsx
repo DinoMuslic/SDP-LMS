@@ -6,12 +6,20 @@ const BooksPage = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const booksPerPage = 6;
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const data = await BookService.getBooksInfo();
-      setBooks(data);
+      setLoading(true); // start loading
+      try {
+        const data = await BookService.getBooksInfo();
+        setBooks(data);
+      } catch (error) {
+        console.error("Failed to fetch books", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchBooks();
   }, []);
@@ -39,22 +47,25 @@ const BooksPage = () => {
             setSearchTerm(e.target.value);
             setCurrentPage(1);
           }}
+          disabled={loading}
         />
       </div>
 
-      <div className="row g-4">
-        {currentBooks.length > 0 ? (
-          currentBooks.map((book, index) => (
+      {loading ? (
+        <div className="text-center text-muted">Loading books...</div>
+      ) : currentBooks.length > 0 ? (
+        <div className="row g-4">
+          {currentBooks.map((book, index) => (
             <div className="col-12 col-lg-4 mb-4" key={index}>
               <BookCard {...book} />
             </div>
-          ))
-        ) : (
-          <div className="text-center text-muted">No books found.</div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center text-muted">No books found.</div>
+      )}
 
-      {totalPages > 1 && (
+      {!loading && totalPages > 1 && (
         <div className="d-flex justify-content-center mt-4">
           <nav>
             <ul className="pagination">
