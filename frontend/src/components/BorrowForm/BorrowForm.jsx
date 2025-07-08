@@ -72,30 +72,10 @@ const BorrowForm = ({ onDataChange }) => {
     setShowToast(true);
     setSelectedStudent(null);
     setSelectedBook(null);
-    if (onDataChange) onDataChange();
-  };
 
-  const handleReturn = async () => {
-    setToastMessage("");
-    setShowToast(false);
+    const updatedBooks = await BookService.get();
+    setBooks(updatedBooks);
 
-    if (!selectedStudent || !selectedBook) {
-      setTimeout(() => {
-        setToastMessage("Both student and book must be selected.");
-        setShowToast(true);
-      }, 50);
-      return;
-    }
-
-    const response = await BorrowService.return({
-      student_id: selectedStudent.value,
-      isbn: selectedBook.value,
-    });
-
-    setToastMessage(response);
-    setShowToast(true);
-    setSelectedStudent(null);
-    setSelectedBook(null);
     if (onDataChange) onDataChange();
   };
 
@@ -138,7 +118,6 @@ const BorrowForm = ({ onDataChange }) => {
             placeholder="Search or select student..."
             isClearable
           />
-          {/* <p style={{ fontSize: 14 }}>To check fines for all students, leave this field empty.</p> */}
         </div>
 
         <div className="text-input-container">
@@ -156,9 +135,6 @@ const BorrowForm = ({ onDataChange }) => {
           <button className="my-btn" onClick={handleBorrow}>
             Borrow Book
           </button>
-          {/* <button className="my-btn" onClick={handleReturn}>
-            Return Book
-          </button> */}
           <button className="my-btn" onClick={handleStudentFine}>
             Check Total Fines
           </button>

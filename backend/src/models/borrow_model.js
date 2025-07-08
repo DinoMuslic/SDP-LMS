@@ -26,15 +26,17 @@ const getBorrowingByStudent = async (student_id) => {
   }
 };
 
-const getBorrowingInfo= async () => {
+const getBorrowingInfo = async () => {
   try {
-    const rows = await db.query("SELECT u.id, CONCAT(u.first_name, ' ' , u.last_name) as full_name, b.isbn, b.name, bo.borrow_date, bo.return_date, bo.returned_status, bo.returned_date, bo.fine FROM users u JOIN borrowings bo ON u.id = bo.student_id JOIN books b ON b.isbn = bo.isbn WHERE bo.returned_status != 'returned'");
+    const rows = await db.query(
+      "SELECT u.id, CONCAT(u.first_name, ' ' , u.last_name) as full_name, b.isbn, b.name, bo.borrow_date, bo.return_date, bo.returned_status, bo.returned_date, bo.fine FROM users u JOIN borrowings bo ON u.id = bo.student_id JOIN books b ON b.isbn = bo.isbn WHERE bo.returned_status != 'returned'"
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
-}
+};
 
 const updateLateBorrowings = async () => {
   try {
@@ -79,33 +81,40 @@ const returnBook = async (student_id, isbn) => {
 
 const calculateFines = async (student_id) => {
   try {
-    const rows = await db.query("SELECT SUM(fine) as total_fines FROM borrowings WHERE student_id = ? AND returned_status != 'returned'", [student_id]);
+    const rows = await db.query(
+      "SELECT SUM(fine) as total_fines FROM borrowings WHERE student_id = ? AND returned_status != 'returned'",
+      [student_id]
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
-}
+};
 
 const calculateAllFines = async () => {
   try {
-    const rows = await db.query("SELECT SUM(fine) as total_fines FROM borrowings WHERE returned_status != 'returned'");
+    const rows = await db.query(
+      "SELECT SUM(fine) as total_fines FROM borrowings WHERE returned_status != 'returned'"
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
     throw error;
   }
-}
+};
 
 const getAllStudentFines = async () => {
   try {
-    const rows = await db.query("SELECT u.id, CONCAT(u.first_name, ' ' , u.last_name) as full_name, SUM(b.fine) as total_fines FROM users u JOIN borrowings b ON u.id = b.student_id WHERE returned_status != 'returned' GROUP BY u.id")
+    const rows = await db.query(
+      "SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) AS full_name, SUM(CASE WHEN b.returned_status != 'returned' THEN b.fine ELSE 0 END) AS total_fines FROM users u LEFT JOIN borrowings b ON u.id = b.student_id WHERE u.role = 'student' GROUP BY u.id"
+    );
     return rows[0];
   } catch (error) {
     console.error("Database error: ", error);
     throw error;
   }
-}
+};
 
 module.exports = {
   getBorrowing,
@@ -116,5 +125,5 @@ module.exports = {
   returnBook,
   calculateFines,
   calculateAllFines,
-  getAllStudentFines
+  getAllStudentFines,
 };

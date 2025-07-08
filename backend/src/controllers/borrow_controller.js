@@ -81,13 +81,13 @@ const updateLateBorrowings = async (req, res) => {
 
 const returnBook = async (req, res) => {
   try {
-    const { student_id, isbn } = req.body;
+    const { id, isbn } = req.body;
 
-    const user = await User.getUserById(student_id);
+    const user = await User.getUserById(id);
     if (user.length === 0)
       return res
         .status(404)
-        .json({ error: `Student with id ${student_id} doesn't exist` });
+        .json({ error: `Student with id ${id} doesn't exist` });
 
     const book = await Book.getBookByIsbn(isbn);
     if (book.length === 0)
@@ -95,13 +95,13 @@ const returnBook = async (req, res) => {
         .status(404)
         .json({ error: `Book with isbn ${isbn} doesn't exist` });
 
-    const borrow = await Borrow.getBorrowing(student_id, isbn);
+    const borrow = await Borrow.getBorrowing(id, isbn);
     if (borrow.length === 0)
       return res.status(404).json({
         error: ` ${user[0]["first_name"]} ${user[0]["last_name"]} didn't borrow the book ${book[0]["name"]}`,
       });
 
-    await Borrow.returnBook(student_id, isbn);
+    await Borrow.returnBook(id, isbn);
     const newAmount = book[0].amount + 1;
     await Book.updateBookAmount(isbn, newAmount);
 

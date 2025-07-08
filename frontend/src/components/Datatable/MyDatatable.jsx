@@ -1,16 +1,14 @@
 import { useState } from "react";
 
-const MyDatatable = ({ columns, data, rowsPerPage = 5 }) => {
+const MyDatatable = ({ columns, data, rowsPerPage = 5, onReturnBook }) => {
   const [sortConfig, setSortConfig] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortedData = [...data].sort((a, b) => {
     if (!sortConfig) return 0;
-
     const { key, direction } = sortConfig;
     const aVal = a[key];
     const bVal = b[key];
-
     if (aVal < bVal) return direction === "asc" ? -1 : 1;
     if (aVal > bVal) return direction === "asc" ? 1 : -1;
     return 0;
@@ -22,7 +20,7 @@ const MyDatatable = ({ columns, data, rowsPerPage = 5 }) => {
     currentPage * rowsPerPage
   );
 
-  const requestSort = key => {
+  const requestSort = (key) => {
     let direction = "asc";
     if (sortConfig?.key === key && sortConfig.direction === "asc") {
       direction = "desc";
@@ -30,7 +28,7 @@ const MyDatatable = ({ columns, data, rowsPerPage = 5 }) => {
     setSortConfig({ key, direction });
   };
 
-  const getSortIcon = key => {
+  const getSortIcon = (key) => {
     if (sortConfig?.key !== key) return "⇅";
     return sortConfig.direction === "asc" ? "↑" : "↓";
   };
@@ -45,19 +43,36 @@ const MyDatatable = ({ columns, data, rowsPerPage = 5 }) => {
                 {col.header} {getSortIcon(col.accessor)}
               </th>
             ))}
+            <th style={styles.th}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {paginatedData.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} style={styles.td}>No data</td>
+              <td colSpan={columns.length + 1} style={styles.td}>
+                No data
+              </td>
             </tr>
           ) : (
             paginatedData.map((row, rowIdx) => (
               <tr key={rowIdx}>
                 {columns.map((col, colIdx) => (
-                  <td key={colIdx} style={styles.td}>{row[col.accessor]}</td>
+                  <td key={colIdx} style={styles.td}>
+                    {row[col.accessor]}
+                  </td>
                 ))}
+                <td style={styles.td}>
+                  {row.returned_status === "Returned" ? (
+                    <span style={{ color: "gray" }}>Already returned</span>
+                  ) : (
+                    <button
+                      className="my-btn"
+                      onClick={() => onReturnBook?.(row.id, row.isbn)}
+                    >
+                      Return Book
+                    </button>
+                  )}
+                </td>
               </tr>
             ))
           )}
@@ -65,11 +80,21 @@ const MyDatatable = ({ columns, data, rowsPerPage = 5 }) => {
       </table>
 
       <div style={styles.pagination}>
-        <button className="my-btn" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+        <button
+          className="my-btn"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((p) => p - 1)}
+        >
           ◀ Prev
         </button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button className="my-btn" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="my-btn"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((p) => p + 1)}
+        >
           Next ▶
         </button>
       </div>
