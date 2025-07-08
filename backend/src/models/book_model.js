@@ -33,7 +33,16 @@ const addBook = async (
   try {
     await db.query(
       "INSERT INTO books (isbn, name, genre, year_of_publication, publisher_id, author_id, image, amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [isbn, name, genre, year_of_publication, publisher_id, author_id, image, amount]
+      [
+        isbn,
+        name,
+        genre,
+        year_of_publication,
+        publisher_id,
+        author_id,
+        image,
+        amount,
+      ]
     );
     return { message: "Book added sucessfully" };
   } catch (error) {
@@ -50,7 +59,7 @@ const updateBook = async ({
   publisher_id,
   author_id,
   image,
-  amount
+  amount,
 }) => {
   try {
     const sql = image
@@ -58,8 +67,25 @@ const updateBook = async ({
       : "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ?, amount = ? WHERE isbn = ?";
 
     const params = image
-      ? [name, genre, year_of_publication, publisher_id, author_id, image, amount, isbn]
-      : [name, genre, year_of_publication, publisher_id, author_id, amount, isbn];
+      ? [
+          name,
+          genre,
+          year_of_publication,
+          publisher_id,
+          author_id,
+          image,
+          amount,
+          isbn,
+        ]
+      : [
+          name,
+          genre,
+          year_of_publication,
+          publisher_id,
+          author_id,
+          amount,
+          isbn,
+        ];
 
     return await db.query(sql, params);
   } catch (error) {
@@ -114,7 +140,7 @@ const checkAvailability = async (bookName) => {
 const getTopBorrowedBooks = async () => {
   try {
     const rows = await db.query(`
-      SELECT b.name AS title,
+      SELECT b.isbn, b.name AS title,
         b.genre,
         b.year_of_publication AS yob,
         b.image,
