@@ -11,7 +11,7 @@ const BorrowForm = ({ onDataChange }) => {
   const [toastMessage, setToastMessage] = useState("");
 
   const currentDate = new Date();
-  const day = currentDate.getDate();
+  const day = currentDate.getDate() < 10 ? "0" + currentDate.getDate() : currentDate.getDate();
   let month =
     currentDate.getMonth() + 1 < 10
       ? "0" + (currentDate.getMonth() + 1)
