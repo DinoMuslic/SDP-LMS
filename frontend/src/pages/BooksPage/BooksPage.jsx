@@ -11,7 +11,7 @@ const BooksPage = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      setLoading(true); // start loading
+      setLoading(true);
       try {
         const data = await BookService.getBooksInfo();
         setBooks(data);
@@ -75,7 +75,7 @@ const BooksPage = () => {
                   className={`page-item ${currentPage === num ? "active" : ""}`}
                 >
                   <button
-                    className="page-link"
+                    className="page-link bg-green text-light"
                     onClick={() => setCurrentPage(num)}
                   >
                     {num}

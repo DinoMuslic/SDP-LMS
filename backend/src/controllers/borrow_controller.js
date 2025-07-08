@@ -172,6 +172,16 @@ const calculateAllFines = async (req, res) => {
   }
 };
 
+const getAllStudentFines = async (req, res) => {
+  try {
+    const studentFines = await Borrow.getAllStudentFines();
+    return res.json({studentFines});
+  } catch (error) {
+    console.error("Error fetching student fines:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
 module.exports = {
   addBorrowing,
   borrowingInfo,
@@ -179,5 +189,6 @@ module.exports = {
   returnBook,
   calculateFines,
   calculateAllFines,
-  calculateFinesProfile
+  calculateFinesProfile,
+  getAllStudentFines
 };

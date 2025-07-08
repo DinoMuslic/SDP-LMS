@@ -97,6 +97,16 @@ const calculateAllFines = async () => {
   }
 }
 
+const getAllStudentFines = async () => {
+  try {
+    const rows = await db.query("SELECT u.id, CONCAT(u.first_name, ' ' , u.last_name) as full_name, SUM(b.fine) as total_fines FROM users u JOIN borrowings b ON u.id = b.student_id WHERE returned_status != 'returned' GROUP BY u.id")
+    return rows[0];
+  } catch (error) {
+    console.error("Database error: ", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getBorrowing,
   getBorrowingByStudent,
@@ -105,5 +115,6 @@ module.exports = {
   addBorrowing,
   returnBook,
   calculateFines,
-  calculateAllFines
+  calculateAllFines,
+  getAllStudentFines
 };

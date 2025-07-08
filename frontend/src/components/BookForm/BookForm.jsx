@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
-  const isEdit = !!initialValues.id;
   const [imageError, setImageError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -170,10 +169,10 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
             accept="image/*"
             onChange={(e) => {
               const file = e.target.files[0];
-              const maxSize = 1 * 1024 * 1024;
+              const maxSize = 2 * 1024 * 1024;
 
               if (file && file.size > maxSize) {
-                setImageError("Image must be under 1MB.");
+                setImageError("Image must be under 2MB.");
                 setFormData((prev) => ({ ...prev, imageFile: null }));
               } else {
                 setImageError("");

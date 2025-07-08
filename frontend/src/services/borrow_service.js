@@ -63,7 +63,9 @@ const BorrowService = {
   calculateStudentFinesProfile: async (id) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/borrowings/calculate-fines-profile/${id}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/borrowings/calculate-fines-profile/${id}`
       );
       return response.data.fines;
     } catch (error) {
@@ -77,6 +79,15 @@ const BorrowService = {
         `${import.meta.env.VITE_API_URL}/borrowings/total-fines/`
       );
       return response.data.fines;
+    } catch (error) {
+      return error.response.data.error;
+    }
+  },
+
+  getAllStudentFines: async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/borrowings/calculate-fines/all`);
+      return response.data.studentFines;
     } catch (error) {
       return error.response.data.error;
     }
