@@ -1,10 +1,12 @@
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const UserService = {
   get: async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/`
+        `${BASE_URL}/users/`
       );
       return response.data;
     } catch (error) {
@@ -13,21 +15,21 @@ const UserService = {
   },
   add: async (data) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/users/add`, data);
+      await axios.post(`${BASE_URL}/users/add`, data);
     } catch (error) {
       console.log("Error adding user.");
     }
   },
   update: async (id, data) => {
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/users/${id}`, data);
+      await axios.put(`${BASE_URL}/users/${id}`, data);
     } catch (error) {
       console.log("Error updating user.");
     }
   },
   delete: async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/users/delete/${id}`);
+      await axios.delete(`${BASE_URL}/users/delete/${id}`);
     } catch (error) {
       console.log("Error deleting user.");
     }
@@ -35,7 +37,7 @@ const UserService = {
   getStudentsInfo: async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/students/`
+        `${BASE_URL}/users/students/`
       );
       return response.data;
     } catch (error) {
@@ -45,7 +47,7 @@ const UserService = {
   changePassword: async (data) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/users/change-password/`,
+        `${BASE_URL}/users/change-password/`,
         data
       );
       return response.data;

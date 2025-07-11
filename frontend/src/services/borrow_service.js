@@ -1,10 +1,12 @@
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const BorrowService = {
   add: async (data) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/borrowings/add`,
+        `${BASE_URL}/borrowings/add`,
         data
       );
       return response.data.message;
@@ -16,7 +18,7 @@ const BorrowService = {
   get: async (data) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/borrowings/all`,
+        `${BASE_URL}/borrowings/all`,
         data
       );
       return response.data;
@@ -28,7 +30,7 @@ const BorrowService = {
   updateLateBorrowings: async (data) => {
     try {
       const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/borrowings/update-late`,
+        `${BASE_URL}/borrowings/update-late`,
         data
       );
       return response.data;
@@ -40,7 +42,7 @@ const BorrowService = {
   return: async (data) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/borrowings/return`,
+        `${BASE_URL}/borrowings/return`,
         data
       );
       return response.data.message;
@@ -52,7 +54,7 @@ const BorrowService = {
   calculateStudentFines: async (id) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/borrowings/calculate-fines/${id}`
+        `${BASE_URL}/borrowings/calculate-fines/${id}`
       );
       return response.data.fines;
     } catch (error) {
@@ -64,7 +66,7 @@ const BorrowService = {
     try {
       const response = await axios.get(
         `${
-          import.meta.env.VITE_API_URL
+          BASE_URL
         }/borrowings/calculate-fines-profile/${id}`
       );
       return response.data.fines;
@@ -76,7 +78,7 @@ const BorrowService = {
   calculateAllFines: async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/borrowings/total-fines/`
+        `${BASE_URL}/borrowings/total-fines/`
       );
       return response.data.fines;
     } catch (error) {
@@ -86,7 +88,7 @@ const BorrowService = {
 
   getAllStudentFines: async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/borrowings/calculate-fines/all`);
+      const response = await axios.get(`${BASE_URL}/borrowings/calculate-fines/all`);
       return response.data.studentFines;
     } catch (error) {
       return error.response.data.error;

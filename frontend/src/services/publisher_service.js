@@ -1,10 +1,12 @@
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const PublisherService = {
   get: async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/publishers/all`
+        `${BASE_URL}/publishers/all`
       );
       return response.data;
     } catch (error) {
@@ -16,7 +18,7 @@ const PublisherService = {
   add: async (data) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/publishers/add`,
+        `${BASE_URL}/publishers/add`,
         data
       );
       return response.data.message;
@@ -28,7 +30,7 @@ const PublisherService = {
   update: async (id, data) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/publishers/update/${id}`,
+        `${BASE_URL}/publishers/update/${id}`,
         data
       );
       return response.data.message;
@@ -40,7 +42,7 @@ const PublisherService = {
   delete: async (id) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/publishers/delete/${id}`
+        `${BASE_URL}/publishers/delete/${id}`
       );
       return response.data.message;
     } catch (error) {

@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const BookService = {
   get: async () => {
     try {
-      const response = await axios.get(`${URL}/books/all`);
+      const response = await axios.get(`${BASE_URL}/books/all`);
       return response.data;
     } catch (error) {
       console.log("Error fetching books:");
@@ -13,7 +13,7 @@ const BookService = {
   },
   add: async (data) => {
     try {
-      await axios.post(`${URL}/books/add`, data, {
+      await axios.post(`${BASE_URL}/books/add`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } catch (error) {
@@ -23,7 +23,7 @@ const BookService = {
 
   update: async (id, data) => {
     try {
-      await axios.put(`${URL}/books/update/${id}`, data, {
+      await axios.put(`${BASE_URL}/books/update/${id}`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } catch (error) {
@@ -32,14 +32,14 @@ const BookService = {
   },
   delete: async (id) => {
     try {
-      await axios.delete(`${URL}/books/delete/${id}`);
+      await axios.delete(`${BASE_URL}/books/delete/${id}`);
     } catch (error) {
       console.log("Error deleting book");
     }
   },
   getBooksInfo: async () => {
     try {
-      const response = await axios.get(`${URL}/books/info/all`);
+      const response = await axios.get(`${BASE_URL}/books/info/all`);
       return response.data;
     } catch (error) {
       console.log("Error geting books");
@@ -47,7 +47,7 @@ const BookService = {
   },
   getTopBorrowed: async () => {
     try {
-      const response = await axios.get(`${URL}/books/top-borrowed`);
+      const response = await axios.get(`${BASE_URL}/books/top-borrowed`);
       return response.data;
     } catch (error) {
       console.log("Error geting top borrowed books");
@@ -55,7 +55,7 @@ const BookService = {
   },
   isAvailable: async (title) => {
     try {
-      const response = await axios.get(`${URL}/books/is-available/${title}`);
+      const response = await axios.get(`${BASE_URL}/books/is-available/${title}`);
       if (response.data.amount == 0) return `No available copies of ${title}`;
       return `Book is available (${response.data.amount} copies)`;
     } catch (error) {
