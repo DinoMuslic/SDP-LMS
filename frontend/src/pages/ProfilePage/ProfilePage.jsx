@@ -61,7 +61,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="profile-center-container">
+    <div className="profile-center-container p-3">
       <div className="profile-container">
         <div className="text-center c-green h1">User Profile</div>
         <hr /> <br />
@@ -97,7 +97,7 @@ const ProfilePage = () => {
               Change Password
             </button>
           </div>
-          <div className="right-side">
+          <div className="right-side ms-3">
             <div className="h3 mb-4">Total Fines</div>
             <div className="h4 fine">{fines || 0}</div>
           </div>

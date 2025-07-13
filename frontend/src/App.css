@@ -20,6 +20,7 @@ html,
 body {
   font-family: "Quicksand";
   font-weight: 500;
+  overflow-x: hidden;
 }
 
 .bg-green {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import BookCard from "../../components/BookCard/BookCard";
-import BookService from "../../services/book_service";
+import BookCard from "@components/BookCard/BookCard";
+import BookService from "@services/book_service";
 
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
@@ -24,10 +24,11 @@ const BooksPage = () => {
     fetchBooks();
   }, []);
 
-  const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.genre.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBooks = books.filter(
+    (book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.genre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastBook = currentPage * booksPerPage;
@@ -36,7 +37,7 @@ const BooksPage = () => {
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ overflowX: "hidden" }}>
       <div className="mb-4">
         <input
           type="text"
@@ -69,19 +70,29 @@ const BooksPage = () => {
         <div className="d-flex justify-content-center mt-4">
           <nav>
             <ul className="pagination">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-                <li
-                  key={num}
-                  className={`page-item ${currentPage === num ? "active" : ""}`}
-                >
-                  <button
-                    className="page-link bg-green text-light"
-                    onClick={() => setCurrentPage(num)}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (num) => (
+                  <li
+                    key={num}
+                    className={`page-item ${
+                      currentPage === num ? "active" : ""
+                    }`}
                   >
-                    {num}
-                  </button>
-                </li>
-              ))}
+                    <button
+                      className="page-link bg-green text-light"
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        if (num !== currentPage) {
+                          setCurrentPage(num);
+                        
+                        }
+                      }}
+                    >
+                      {num}
+                    </button>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
         </div>

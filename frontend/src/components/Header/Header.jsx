@@ -54,17 +54,13 @@ const Header = () => {
             <>
               <Nav.Link
                 href="/home"
-                className="text-light"
+                className="text-light me-5"
                 onClick={() => {
                   localStorage.removeItem("role");
                   localStorage.removeItem("token");
                 }}
               >
                 Logout
-              </Nav.Link>
-
-              <Nav.Link href="/profile">
-                <img className="logo ms-4 me-2" src={userIcon} alt="User" />
               </Nav.Link>
             </>
           )}
