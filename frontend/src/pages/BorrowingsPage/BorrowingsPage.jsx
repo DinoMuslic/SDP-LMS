@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import BorrowForm from "@components/BorrowForm/BorrowForm";
 import Datatable from "@components/Datatable/MyDatatable";
 import BorrowService from "@services/borrow_service";
 import MyToast from "@components/Toast/Toast";
 
 const BorrowingsPage = () => {
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("role") !== "librarian") {
-      navigate("/home");
-    }
-  }, [navigate]);
 
   const fetchData = async () => {
     await BorrowService.updateLateBorrowings();

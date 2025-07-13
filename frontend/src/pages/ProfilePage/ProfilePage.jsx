@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import BorrowService from "@services/borrow_service";
 import MyToast from "@components/Toast/Toast";
 import UserService from "@services/user_service";
+import { useAuth } from "../../auth/AuthContext";
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
+  const { user } = useAuth();
+
   const [fines, setFines] = useState(0);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -12,63 +15,61 @@ const ProfilePage = () => {
   const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
+    if (!user) return;
+
     const fetchFines = async () => {
-      const fetchedFines = await BorrowService.calculateStudentFinesProfile(
-        localStorage.getItem("id")
-      );
+      const fetchedFines = await BorrowService.calculateStudentFinesProfile(user.id);
       setFines(fetchedFines);
     };
     fetchFines();
-  }, []);
+  }, [user]);
 
-  const handlePasswordInput = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordInput = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+  const handlePasswordInput = (e) => setPassword(e.target.value);
+  const handleConfirmPasswordInput = (e) => setConfirmPassword(e.target.value);
 
   const handlePasswordChange = async () => {
     setToastMessage("");
     setShowToast(false);
 
-    if (password === "" || confirmPassword === "") {
-      setShowToast(false);
-      setTimeout(() => {
-        setToastMessage("Password fields cannot be empty");
-        setShowToast(true);
-      }, 50);
-      return;
-    }
-
-    if (password !== confirmPassword && password !== "") {
-      setShowToast(false);
-      setTimeout(() => {
-        setToastMessage("Password do not match");
-        setShowToast(true);
-      }, 50);
-      return;
-    }
-
-    await UserService.changePassword({id: localStorage.getItem("id"), password: password, confirm_password: confirmPassword});
-
-    setShowToast(false);
-    setTimeout(() => {
-      setToastMessage("Password changed successfully");
+    if(password.length < 8) {
       setShowToast(true);
-    }, 50);
+      setToastMessage("Password should be atleast 8 characters long");
+      return;
+    }
+
+    if (!password || !confirmPassword) {
+      setShowToast(true);
+      setToastMessage("Password fields cannot be empty");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setShowToast(true);
+      setToastMessage("Passwords do not match");
+      return;
+    }
+
+    try {
+      await UserService.changePassword({ id: user.id, password, confirm_password: confirmPassword });
+      setShowToast(true);
+      setToastMessage("Password changed successfully");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      setShowToast(true);
+      setToastMessage("Error changing password");
+    }
   };
+
+  if (!user) return <div>Loading...</div>;
 
   return (
     <div className="profile-center-container p-3">
       <div className="profile-container">
         <div className="text-center c-green h1">User Profile</div>
         <hr /> <br />
-        <div className="h3 mb-4">
-          Full Name: {localStorage.getItem("full_name")}
-        </div>
-        <div className="h3">Email: {localStorage.getItem("email")}</div>
+        <div className="h3 mb-4">Full Name: {user.full_name}</div>
+        <div className="h3">Email: {user.email}</div>
         <br />
         <hr />
         <br />
@@ -101,10 +102,9 @@ const ProfilePage = () => {
             <div className="h3 mb-4">Total Fines</div>
             <div className="h4 fine">{fines || 0}</div>
           </div>
-          <div></div> <div></div>
         </div>
       </div>
-      {showToast ? <MyToast type="info" message={toastMessage} /> : null}
+      {showToast && <MyToast type="info" message={toastMessage} />}
     </div>
   );
 };
