@@ -79,7 +79,7 @@ const updateBook = async (req, res) => {
 const deleteBook = async (req, res) => {
   try {
     await Book.deleteBook(req.params.id);
-    res.status(201).json({ message: "Book deleted sucessfully" });
+    res.status(201).json({ message: "Book deleted successfully" });
   } catch (error) {
     console.error("Error deleting book:", error);
     res.status(500).json({ error: "Server error" });

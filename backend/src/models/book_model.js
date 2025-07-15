@@ -44,7 +44,7 @@ const addBook = async (
         amount,
       ]
     );
-    return { message: "Book added sucessfully" };
+    return { message: "Book added successfully" };
   } catch (error) {
     console.log("Database error:", error);
     throw error;
