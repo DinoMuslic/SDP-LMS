@@ -6,7 +6,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 import libraryLogo from "@images/online-library.png";
 import { useAuth } from "../../auth/AuthContext";
-import { getFrontendUrl } from "@utils/utils";
 
 const Header = () => {
   const { user, logout } = useAuth();
