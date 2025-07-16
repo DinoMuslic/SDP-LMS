@@ -27,7 +27,3 @@ export const validateRegisterForm = (
 export const getBaseUrl = () => {
   return import.meta.env.VITE_API_URL;
 }
-
-export const getFrontendUrl = () => {
-  return import.meta.env.VITE_FRONTEND_URL
-}

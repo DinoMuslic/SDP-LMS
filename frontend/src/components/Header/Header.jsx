@@ -29,8 +29,8 @@ const Header = () => {
           <Nav className="me-auto">
             {role === "student" ? (
               <>
-                <Nav.Link as={NavLink} to={getFrontendUrl() + "/home"}>Home</Nav.Link>
-                <Nav.Link as={NavLink} to={getFrontendUrl() + "/books"}>Books</Nav.Link>
+                <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
+                <Nav.Link as={NavLink} to="/books">Books</Nav.Link>
                 <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
               </>
             ) : role === "admin" ? (

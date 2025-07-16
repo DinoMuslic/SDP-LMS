@@ -8,14 +8,13 @@ import BooksPage from "@pages/BooksPage/BooksPage";
 import ProfilePage from "@pages/ProfilePage/ProfilePage";
 import BorrowingsPage from "@pages/BorrowingsPage/BorrowingsPage";
 import DashboardPage from "@pages/DashboardPage/DashboardPage";
-import { getFrontendUrl } from "@utils/utils";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path={getFrontendUrl() + "/home"} element={<HomePage />} />
+      <Route path="/home" element={<HomePage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["student", "admin", "librarian"]} />}>
         <Route path="/books" element={<BooksPage />} />
