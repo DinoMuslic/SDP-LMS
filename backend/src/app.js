@@ -12,7 +12,8 @@ const borrowingRoutes = require("./routes/borrowing_routes");
 const publisherRoutes = require("./routes/publisher_routes");
 
 app.use(cors({
-    origin: "https://sdp-lms-x5tpn.ondigitalocean.app/"
+    origin: "https://sdp-lms-x5tpn.ondigitalocean.app/",ž,
+    credentials: true,
 }));
 app.use(express.json());
 
