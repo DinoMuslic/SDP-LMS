@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 const App = () => (
-  <BrowserRouter basename={import.meta.env.VITE_FRONTEND_URL}>
+  <BrowserRouter>
     <AuthProvider>
       <AppContent />
     </AuthProvider>
