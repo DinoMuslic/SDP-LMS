@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 import libraryLogo from "@images/online-library.png";
 import { useAuth } from "../../auth/AuthContext";
+import { getFrontendUrl } from "@utils/utils";
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -28,8 +29,8 @@ const Header = () => {
           <Nav className="me-auto">
             {role === "student" ? (
               <>
-                <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
-                <Nav.Link as={NavLink} to="/books">Books</Nav.Link>
+                <Nav.Link as={NavLink} to={getFrontendUrl + "/home"}>Home</Nav.Link>
+                <Nav.Link as={NavLink} to={getFrontendUrl + "/books"}>Books</Nav.Link>
                 <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
               </>
             ) : role === "admin" ? (

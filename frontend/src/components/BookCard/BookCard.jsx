@@ -13,7 +13,7 @@ const BookCard = (props) => {
           src={
             props.image
               ? `${import.meta.env.VITE_API_URL}/books/image/${props.isbn}`
-              : "/src/public/no_image.svg"
+              : "/frontend/public/no_image.svg"
           }
           alt="book"
           loading="lazy"
