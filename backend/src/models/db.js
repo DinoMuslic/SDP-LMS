@@ -8,6 +8,8 @@ const connection = mysql.createPool({
   database: `${process.env.DB_NAME}`
 });
 
+console.log(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_NAME);
+
 connection.query('SELECT 1')
   .then(() => {
     console.log("Connected to MySQL");
