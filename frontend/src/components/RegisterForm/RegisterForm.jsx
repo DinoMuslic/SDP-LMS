@@ -163,6 +163,7 @@ const RegisterForm = ({
       <div className="d-flex justify-content-center align-items-center w-100 mt-3">
         <p className="m-0 me-2">Already have an Account?</p>
         <Button
+        variant="link"
           as={NavLink}
           to="/login"
           className="p-0 text-decoration-none c-dark-green"
