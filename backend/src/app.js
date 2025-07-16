@@ -17,6 +17,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.use('/sdp-lms-frontend', express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('/sdp-lms-frontend/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);

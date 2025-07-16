@@ -73,7 +73,8 @@ const LoginForm = ({ setShowToast, setToastMessage, setToastType, setToastTitle 
         <p className="m-0 me-2">Don't have an Account?</p>
         <Button
           variant="link"
-          href="/register"
+            as={NavLink}
+            to="/register"
           className="p-0 text-decoration-none c-dark-green"
         >
           Signup

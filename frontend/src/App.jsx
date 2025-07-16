@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/sdp-lms-frontend">
     <AuthProvider>
       <AppContent />
     </AuthProvider>

@@ -36,12 +36,16 @@ const RegisterForm = ({
 
   const navigate = useNavigate();
 
-  
-
   const handleRegister = async (event) => {
     event.preventDefault();
 
-    const errors = validateRegisterForm(firstName, lastName, email, password, confirmPassword);
+    const errors = validateRegisterForm(
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword
+    );
     setFormErrors(errors);
 
     if (Object.keys(errors).length > 0) return;
@@ -159,8 +163,8 @@ const RegisterForm = ({
       <div className="d-flex justify-content-center align-items-center w-100 mt-3">
         <p className="m-0 me-2">Already have an Account?</p>
         <Button
-          variant="link"
-          href="/login"
+          as={NavLink}
+          to="/login"
           className="p-0 text-decoration-none c-dark-green"
         >
           Login
