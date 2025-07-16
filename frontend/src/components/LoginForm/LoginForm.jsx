@@ -1,21 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { Form, Container, Button } from "react-bootstrap";
+import { useAuth } from "../../auth/AuthContext";
 
-const LoginForm = ({
-  setShowToast,
-  setToastMessage,
-  setToastType,
-  setToastTitle,
-}) => {
+const LoginForm = ({ setShowToast, setToastMessage, setToastType, setToastTitle }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -24,22 +16,20 @@ const LoginForm = ({
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/login`,
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
 
-      const { token, role } = response.data.user;
+      const { id, first_name, last_name, mail, token, role } = response.data.user;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
+      login({
+        id,
+        full_name: `${first_name} ${last_name}`,
+        email: mail,
+        token,
+        role,
+      });
 
-      role === "student"
-        ? navigate("/home")
-        : role === "admin"
-        ? navigate("/dashboard")
-        : navigate("/librarian");
+      navigate(role === "admin" ? "/dashboard" : "/home");
     } catch (error) {
       setToastTitle("Error");
       setToastType("danger");
@@ -56,10 +46,9 @@ const LoginForm = ({
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Control
           type="email"
-          name="email"
           placeholder="Enter your email"
           value={email}
-          onChange={handleEmailChange}
+          onChange={(e) => setEmail(e.target.value)}
           className="pt-3 pb-3 mb-4"
         />
       </Form.Group>
@@ -67,10 +56,9 @@ const LoginForm = ({
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Control
           type="password"
-          name="password"
           placeholder="Enter your password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
           className="pt-3 pb-3 mb-4"
         />
       </Form.Group>

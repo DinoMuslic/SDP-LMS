@@ -34,9 +34,6 @@ const AuthorForm = ({ formRef, onSubmit, initialValues = {} }) => {
     if (!formData.year_of_birth) {
       newErrors.year_of_birth = "Year of birth is required.";
     }
-    if (formData.year_of_death < formData.year_of_birth) {
-        newErrors.year_of_death = "Year of death can't be lesser than year of birth.";
-    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

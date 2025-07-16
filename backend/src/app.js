@@ -8,6 +8,8 @@ const bookRoutes = require("./routes/book_routes");
 const authRoutes = require("./routes/auth_routes");
 const adminRoutes = require("./routes/admin_routes");
 const librarianRoutes = require("./routes/librarian_routes");
+const borrowingRoutes = require("./routes/borrowing_routes");
+const publisherRoutes = require("./routes/publisher_routes");
 
 app.use(cors());
 app.use(express.json());
@@ -18,5 +20,7 @@ app.use("/api/books", bookRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/librarian", librarianRoutes);
+app.use("/api/borrowings", borrowingRoutes);
+app.use("/api/publishers", publisherRoutes);
 
 module.exports = app;

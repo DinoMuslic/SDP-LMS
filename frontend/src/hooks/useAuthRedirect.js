@@ -1,18 +1,20 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const useAuthRedirect = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const publicPaths = ["/home", "/login", "/register"];
-    const token = localStorage.getItem("token");
+    const isPublic = publicPaths.includes(location.pathname);
 
-    if (!token && !publicPaths.includes(location.pathname)) {
-      navigate("/home");
+    if (!user && !isPublic) {
+      navigate("/home", { replace: true });
     }
-  }, [location, navigate]);
+  }, [user, location, navigate]);
 };
 
 export default useAuthRedirect;

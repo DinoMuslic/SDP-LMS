@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Router from "./Router/Router";
-
-import AuthService from "@services/auth_service";
+import Header from "@components/Header/Header";
+import { AuthProvider } from "./auth/AuthContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Header from "@components/Header/Header";
-
-const App = () => {
-  return (
-    <BrowserRouter>
+const App = () => (
+  <BrowserRouter>
+    <AuthProvider>
       <AppContent />
-    </BrowserRouter>
-  );
-};
+    </AuthProvider>
+  </BrowserRouter>
+);
 
 const AppContent = () => {
-  AuthService.checkToken();
-
   const location = useLocation();
   const [url, setUrl] = useState(window.location.href);
 

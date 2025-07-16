@@ -5,6 +5,7 @@ import MyModal from "@components/Modal/MyModal";
 import UserService from "@services/user_service";
 import AuthorService from "@services/author_service";
 import BookService from "@services/book_service";
+import PublisherService from "@services/publisher_service";
 
 const DashboardPage = () => {
   AuthService.checkAuth();
@@ -27,6 +28,9 @@ const DashboardPage = () => {
       } else if (selectedTable === "books") {
         const bookData = await BookService.get();
         setData(bookData);
+      } else if (selectedTable === "publishers") {
+        const publisherData = await PublisherService.get();
+        setData(publisherData);
       }
     } catch (error) {
       console.error("Failed to fetch data", error);
@@ -55,8 +59,11 @@ const DashboardPage = () => {
       if (modalAction === "edit") await AuthorService.update(data.id, data);
       else if (modalAction === "add") await AuthorService.add(data);
     } else if (modalType === "book") {
-      if (modalAction === "edit") await BookService.update(data.id, data);
+      if (modalAction === "edit") await BookService.update(data.isbn, data);
       else if (modalAction === "add") await BookService.add(data);
+    } else if (modalType === "publisher") {
+      if (modalAction === "edit") await PublisherService.update(data.id, data);
+      else if (modalAction === "add") await PublisherService.add(data);
     }
 
     setRefreshTrigger((prev) => prev + 1);
@@ -106,6 +113,17 @@ const DashboardPage = () => {
           }}
         >
           Add Book
+        </button>
+        <button
+          className="my-btn"
+          onClick={() => {
+            setModalType("publisher");
+            setModalAction("add");
+            setSelectedRow(null);
+            setShowModal(true);
+          }}
+        >
+          Add Publisher
         </button>
       </div>
       <Datatable

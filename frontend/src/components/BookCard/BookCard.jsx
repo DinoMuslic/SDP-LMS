@@ -8,8 +8,16 @@ const BookCard = (props) => {
   return (
     <div className={`book-container p-0 m-0 mt-5 ${border}`}>
       <div className="img-container">
-        { props.image ? (<img className="author-img" src={`/src/assets/images/${props.image}`} alt="image" />) : (<img className="author-img" src={"/src/assets/images/no_image.svg"} alt="image" />) }
-        
+        <img
+          className="author-img"
+          src={
+            props.image
+              ? `${import.meta.env.VITE_API_URL}/books/image/${props.isbn}`
+              : "/src/assets/images/no_image.svg"
+          }
+          alt="book"
+          loading="lazy"
+        />
       </div>
       <div className={`info-container ${borderTop}`}>
         <div className="text-center h3">{props.title}</div>
@@ -22,14 +30,7 @@ const BookCard = (props) => {
           <b>Publisher: </b>
           {props.publisher} ({props.yob})
         </div>
-        <div className="text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto,
-          aliquam. Eum labore quidem sit! Id unde accusantium quaerat blanditiis
-          possimus cum, minus fuga reprehenderit quo quam animi, sapiente
-          maiores! Aliquid, nulla magnam natus corrupti molestiae, obcaecati
-          ipsa iure eaque voluptas cupiditate incidunt magni mollitia fugiat
-          laborum cum voluptatibus laboriosam doloribus.
-        </div>
+        <div className="text-justify">{props.description}</div>
       </div>
     </div>
   );

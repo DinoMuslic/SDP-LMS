@@ -10,9 +10,9 @@ const getAllBooks = async () => {
   }
 };
 
-const getBookById = async (id) => {
+const getBookByIsbn = async (id) => {
   try {
-    const rows = await db.query("SELECT * FROM books WHERE id = ?", [id]);
+    const rows = await db.query("SELECT * FROM books WHERE isbn = ?", [id]);
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);
@@ -26,40 +26,152 @@ const addBook = async (
   genre,
   year_of_publication,
   publisher_id,
-  author_id
+  author_id,
+  image,
+  amount
 ) => {
   try {
     await db.query(
-      "INSERT INTO books (isbn, name, genre, year_of_publication, publisher_id, author_id) VALUES (?, ?, ?, ?, ?, ?)",
-      [isbn, name, genre, year_of_publication, publisher_id, author_id]
+      "INSERT INTO books (isbn, name, genre, year_of_publication, publisher_id, author_id, image, amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        isbn,
+        name,
+        genre,
+        year_of_publication,
+        publisher_id,
+        author_id,
+        image,
+        amount,
+      ]
     );
-    return { message: "Book added sucessfully" }
+    return { message: "Book added successfully" };
   } catch (error) {
     console.log("Database error:", error);
     throw error;
   }
 };
 
-const updateBook = async(id, { isbn, name, genre, year_of_publication, publisher_id, author_id }) => {
+const updateBook = async ({
+  isbn,
+  name,
+  genre,
+  year_of_publication,
+  publisher_id,
+  author_id,
+  image,
+  amount,
+}) => {
   try {
-    await db.query(
-      "UPDATE books SET isbn = ?, name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ? WHERE id = ?",
-      [isbn, name, genre, year_of_publication, publisher_id, author_id, id]
-    );
+    const sql = image
+      ? "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ?, image = ?, amount = ? WHERE isbn = ?"
+      : "UPDATE books SET name = ?, genre = ?, year_of_publication = ?, publisher_id = ?, author_id = ?, amount = ? WHERE isbn = ?";
+
+    const params = image
+      ? [
+          name,
+          genre,
+          year_of_publication,
+          publisher_id,
+          author_id,
+          image,
+          amount,
+          isbn,
+        ]
+      : [
+          name,
+          genre,
+          year_of_publication,
+          publisher_id,
+          author_id,
+          amount,
+          isbn,
+        ];
+
+    return await db.query(sql, params);
   } catch (error) {
     console.log("Database error:", error);
     throw error;
   }
-}
+};
 
-const deleteBook = async(id) => {
+const updateBookAmount = async (isbn, amount) => {
   try {
-    await db.query(
-      "DELETE FROM books WHERE id = ?", [id]
-    );
+    await db.query("UPDATE books SET amount = ? WHERE isbn = ?", [
+      amount,
+      isbn,
+    ]);
+  } catch (error) {
+    console.log("Database error:", error);
+    throw error;
+  }
+};
+
+const deleteBook = async (isbn) => {
+  try {
+    await db.query("DELETE FROM books WHERE isbn = ?", [isbn]);
   } catch (error) {
     console.log("Database error:", error);
   }
-}
+};
 
-module.exports = { getAllBooks, getBookById, addBook, updateBook, deleteBook };
+const getAllBooksInfo = async () => {
+  try {
+    const rows = await db.query(
+      "SELECT b.isbn, b.name as title, b.genre, b.year_of_publication as yob, b.image, b.description, b.amount , CONCAT(a.first_name, ' ', a.last_name) as author, p.name as publisher FROM books b JOIN authors a ON b.author_id = a.id JOIN publishers p ON b.publisher_id = p.id"
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error);
+  }
+};
+
+const checkAvailability = async (bookName) => {
+  try {
+    const rows = await db.query(
+      "SELECT SUM(amount) as amount FROM books WHERE name LIKE ?",
+      [bookName]
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error);
+  }
+};
+
+const getTopBorrowedBooks = async () => {
+  try {
+    const rows = await db.query(`
+      SELECT b.isbn, b.name AS title,
+        b.genre,
+        b.year_of_publication AS yob,
+        b.image,
+        b.description,
+        b.amount,
+        CONCAT(a.first_name, ' ', a.last_name) AS author,
+        p.name AS publisher,
+        COUNT(bo.isbn) AS borrow_count
+      FROM books b
+      JOIN borrowings bo ON b.isbn = bo.isbn
+      JOIN authors a ON b.author_id = a.id
+      JOIN publishers p ON b.publisher_id = p.id
+      GROUP BY b.isbn
+      ORDER BY borrow_count DESC
+      LIMIT 3
+    `);
+    return rows[0];
+  } catch (error) {
+    console.log("Database error:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  getAllBooks,
+  getBookByIsbn,
+  addBook,
+  updateBookAmount,
+  updateBook,
+  deleteBook,
+  getAllBooksInfo,
+  checkAvailability,
+  getTopBorrowedBooks,
+};

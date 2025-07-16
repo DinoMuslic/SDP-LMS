@@ -1,24 +1,29 @@
 .header {
-    background-color: var(--green);
+  background-color: var(--green);
 }
 
 .logo {
-    height: 48px;
-    transition: transform 0.1s ease-in-out;
+  height: 48px;
+  transition: transform 0.1s ease-in-out;
 }
 
 .logo:hover {
-    transform: scale(1.075);
+  transform: scale(1.075);
 }
 
 .container .navbar-brand {
-    color: var(--light);
+  color: var(--light);
 }
 
 .navbar-nav .nav-link {
-    color: var(--light);
+  color: var(--light);
 }
 
 .nav-link:hover {
-    color: rgb(134, 197, 240);
+  color: rgb(134, 197, 240);
+}
+
+.nav-link.active {
+  color: #01ccff !important;
+  font-weight: bold;
 }

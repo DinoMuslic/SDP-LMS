@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
-  const isEdit = !!initialValues.id;
+  const [imageError, setImageError] = useState("");
 
   const [formData, setFormData] = useState({
     isbn: "",
@@ -11,7 +11,8 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
     genre: "",
     year_of_publication: "",
     publisher_id: "",
-    author_id: ""
+    author_id: "",
+    amount: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -27,13 +28,16 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.isbn|| formData.isbn.length < 1) {
-        newErrors.isbn = "ISBN can't be empty.";
-      }
+    if (!formData.isbn || formData.isbn.length < 1) {
+      newErrors.isbn = "ISBN can't be empty.";
+    }
     if (!formData.name || formData.name.length < 2) {
       newErrors.name = "Title can't be empty";
     }
-    
+    if (!formData.amount || formData.amount < 0) {
+      newErrors.amount = "Amount must be a positive number.";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -46,7 +50,13 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      onSubmit(formData);
+      const data = new FormData();
+      for (const key in formData) {
+        if (formData[key] !== undefined && formData[key] !== null) {
+          data.append(key, formData[key]);
+        }
+      }
+      onSubmit(data);
     }
   };
 
@@ -136,6 +146,58 @@ const BookForm = ({ formRef, onSubmit, initialValues = {} }) => {
             {errors.author_id}
           </Form.Control.Feedback>
         </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Amount</Form.Label>
+          <Form.Control
+            type="number"
+            name="amount"
+            value={formData.amount}
+            onChange={handleChange}
+            isInvalid={!!errors.amount}
+            min="0"
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.amount}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Book Cover</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              const maxSize = 2 * 1024 * 1024;
+
+              if (file && file.size > maxSize) {
+                setImageError("Image must be under 2MB.");
+                setFormData((prev) => ({ ...prev, imageFile: null }));
+              } else {
+                setImageError("");
+                setFormData((prev) => ({
+                  ...prev,
+                  imageFile: file,
+                }));
+              }
+            }}
+            isInvalid={!!imageError}
+          />
+          <Form.Control.Feedback type="invalid">
+            {imageError}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        {formData.imageFile && (
+          <div className="mb-3">
+            <img
+              src={URL.createObjectURL(formData.imageFile)}
+              alt="Preview"
+              style={{ maxWidth: "100%", height: "auto", borderRadius: "10px" }}
+            />
+          </div>
+        )}
 
         <Button type="submit" className="d-none">
           Submit

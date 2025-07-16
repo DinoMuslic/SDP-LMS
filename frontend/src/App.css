@@ -20,6 +20,7 @@ html,
 body {
   font-family: "Quicksand";
   font-weight: 500;
+  overflow-x: hidden;
 }
 
 .bg-green {
@@ -59,8 +60,9 @@ body {
 }
 
 .my-center-container {
-  height: 75vh;
+  height: 60vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

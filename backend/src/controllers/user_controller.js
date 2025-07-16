@@ -1,4 +1,5 @@
 const User = require("../models/user_model");
+const bcrypt = require("bcryptjs");
 
 const getUsers = async (req, res) => {
   try {
@@ -67,5 +68,42 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUsersInfo = async (req, res) => {
+  try {
+    const users = await User.getUsersInfo();
+    res.status(201).json(users);
+  } catch (error) {
+    console.error("Error getting users info:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-module.exports = { getUsers, getUser, addUser, updateUser, deleteUser };
+const changePassword = async (req, res) => {
+  try {
+    const { id, password, confirm_password } = req.body;
+
+    if(password.length < 8)
+        return res.status(500).json({ error: "Password should be atleast 8 characters long" })
+
+    if (password !== confirm_password)
+      return res.status(500).json({ error: "Passwords do not match" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.changePassword(id, hashedPassword);
+    return res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUser,
+  addUser,
+  updateUser,
+  deleteUser,
+  getUsersInfo,
+  changePassword
+};
