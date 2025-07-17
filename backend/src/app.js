@@ -29,14 +29,4 @@ app.use("/api/librarian", librarianRoutes);
 app.use("/api/borrowings", borrowingRoutes);
 app.use("/api/publishers", publisherRoutes);
 
-app.use(
-  "/sdp-lms-frontend",
-  express.static(path.join(__dirname, "../../frontend/dist"))
-);
-
-app.get("/sdp-lms-frontend/*", (req, res) => {
-  console.log("💡 Fallback reached:", req.path);
-  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
-});
-
 module.exports = app;
